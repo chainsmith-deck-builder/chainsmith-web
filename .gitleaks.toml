@@ -1,0 +1,24 @@
+# gitleaks configuration for chainsmith-web.
+#
+# Loads the default ruleset and adds path-level allowlists for build artifacts
+# and generated code. Real secrets never live in any of these locations — .env
+# is .gitignored, and VITE_* env vars are public by definition (per security.md).
+#
+# If a real false positive shows up later, prefer pinning the exception by rule
+# ID and path/regex over silencing the rule globally.
+
+[extend]
+useDefault = true
+
+[allowlist]
+description = "Build artifacts, generated client, lockfile, and test reports"
+paths = [
+  '''dist/.*''',
+  '''node_modules/.*''',
+  '''pnpm-lock\.yaml$''',
+  '''src/routeTree\.gen\.ts$''',
+  '''src/api/schema\.d\.ts$''',
+  '''coverage/.*''',
+  '''playwright-report/.*''',
+  '''test-results/.*''',
+]

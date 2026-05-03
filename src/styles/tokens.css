@@ -1,0 +1,64 @@
+/*
+ * Design tokens.
+ *
+ * Single source of truth for color, spacing, radius, motion, and typography
+ * values. Tailwind utilities pull from these via tailwind.config.ts so
+ * components reference role-named utilities (`bg-bg-base`, `text-text-primary`)
+ * rather than raw hex.
+ *
+ * Token discipline lives in .claude/rules/css.md. Highlights:
+ *   - Names are roles, not hex.
+ *   - Pitch colors (--viz-pitch-*) are reserved for data visualization.
+ *   - Dark-first; light theme overrides land under [data-theme='light'].
+ */
+
+:root,
+[data-theme='dark'] {
+  /* Surfaces */
+  --bg-base: #0b0a0d;
+  --bg-raised: #15121a;
+  --bg-overlay: #1d1924;
+
+  /* Text */
+  --text-primary: #f3f0f7;
+  --text-muted: #a39cb0;
+
+  /* Borders */
+  --border-subtle: #2a2530;
+
+  /* Brand accent — pitch red, used sparingly */
+  --accent-brand: #c41e3a;
+
+  /* Semantic state */
+  --state-success: #4ea872;
+  --state-warning: #d4a13c;
+  --state-danger: #d3464e;
+  --state-info: #5b8cc7;
+
+  /* Pitch — data viz only, never UI chrome */
+  --viz-pitch-1: #d33640;
+  --viz-pitch-2: #d4a13c;
+  --viz-pitch-3: #4a7bd6;
+
+  /* Radius */
+  --radius-md: 6px;
+  --radius-lg: 10px;
+  --radius-xl: 12px;
+
+  /* Motion */
+  --motion-fast: 150ms;
+  --motion-slow: 300ms;
+}
+
+[data-theme='light'] {
+  --bg-base: #faf9fb;
+  --bg-raised: #ffffff;
+  --bg-overlay: #f3f1f6;
+  --text-primary: #1a1721;
+  --text-muted: #5e576b;
+  --border-subtle: #e2dee8;
+  --state-success: #2f7a4f;
+  --state-warning: #a87c1f;
+  --state-danger: #b53038;
+  --state-info: #3d6fa8;
+}

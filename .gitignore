@@ -1,0 +1,41 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+
+# Environment (per .claude/rules/security.md — VITE_* are public, but raw .env still stays out)
+.env
+.env.local
+.env.*.local
+
+# Vite
+.vite/
+
+# Test artifacts
+coverage/
+playwright-report/
+test-results/
+.playwright/
+
+# TanStack Router generated route tree
+src/routeTree.gen.ts
+
+# TypeScript
+*.tsbuildinfo
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editor
+.idea/
+.vscode/*
+!.vscode/extensions.json
+*.swp
+*.swo
+*~
+
+# Logs
+*.log

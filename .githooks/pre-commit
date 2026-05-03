@@ -1,0 +1,47 @@
+#!/usr/bin/env bash
+# chainsmith-web pre-commit hook.
+#
+# Runs cheapest-and-most-critical first: secrets gate, types, lint, unit tests,
+# i18n drift. Heavier checks (Playwright + axe, prod build) live in CI.
+#
+# Bypassing this hook with --no-verify is technically allowed but contrary to
+# .claude/rules/security.md. If a step is failing, fix it; do not skip.
+
+set -euo pipefail
+
+if ! command -v gitleaks >/dev/null 2>&1; then
+    echo "pre-commit: gitleaks is not installed." >&2
+    echo "  install (Windows): winget install Gitleaks.Gitleaks" >&2
+    echo "  install (other):   https://github.com/gitleaks/gitleaks#installing" >&2
+    exit 1
+fi
+
+echo "pre-commit: scanning staged changes for secrets..."
+gitleaks git --staged --redact --verbose --no-banner
+
+echo "pre-commit: running typecheck..."
+pnpm typecheck
+
+echo "pre-commit: running lint..."
+pnpm lint
+
+echo "pre-commit: running unit and component tests..."
+pnpm test --run
+
+echo "pre-commit: checking i18n extraction freshness..."
+tmp_dir=$(mktemp -d)
+trap 'rm -rf "$tmp_dir"' EXIT
+cp -r src/i18n/locales/en "$tmp_dir/before"
+pnpm i18n:extract >/dev/null
+if ! diff -qr "$tmp_dir/before" src/i18n/locales/en >/dev/null 2>&1; then
+    echo "pre-commit: i18n locale files drifted from source." >&2
+    echo "  run: pnpm i18n:extract" >&2
+    echo "  then stage src/i18n/locales/en/*.json and re-commit." >&2
+    diff -ur "$tmp_dir/before" src/i18n/locales/en | head -40 >&2 || true
+    # Restore the pre-extract state so the working tree is unchanged.
+    rm -rf src/i18n/locales/en
+    cp -r "$tmp_dir/before" src/i18n/locales/en
+    exit 1
+fi
+
+echo "pre-commit: ok"

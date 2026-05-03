@@ -1,0 +1,12 @@
+node_modules
+dist
+pnpm-lock.yaml
+src/routeTree.gen.ts
+src/api/schema.d.ts
+coverage
+playwright-report
+test-results
+
+# Documentation owned outside this scaffold pass — opt-in to formatting later.
+.claude/
+docs/

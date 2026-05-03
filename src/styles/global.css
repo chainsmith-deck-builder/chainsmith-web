@@ -1,0 +1,31 @@
+@import './tokens.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  /*
+   * Replace Tailwind preflight's `outline: none` on focus with a visible
+   * ring per .claude/rules/accessibility.md — every interactive element is
+   * keyboard-reachable AND focus-visible.
+   */
+  *:focus-visible {
+    outline: 2px solid var(--accent-brand);
+    outline-offset: 2px;
+    border-radius: var(--radius-md);
+  }
+
+  html {
+    color-scheme: dark light;
+  }
+
+  body {
+    min-height: 100dvh;
+  }
+
+  /* Numeric stats use tabular figures so digits align across rows */
+  .font-mono {
+    font-feature-settings: 'tnum';
+  }
+}

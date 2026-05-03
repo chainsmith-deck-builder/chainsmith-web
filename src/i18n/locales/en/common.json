@@ -1,0 +1,20 @@
+{
+  "app": {
+    "name": "Chainsmith"
+  },
+  "home": {
+    "checklist_heading": "What's wired in",
+    "items": {
+      "i18n": "react-i18next with ICU, typed against the English locale",
+      "lint": "ESLint with jsx-a11y and i18next/no-literal-string, Prettier with the Tailwind class-order plugin",
+      "routing": "TanStack Router (file-based) and TanStack Query",
+      "stack": "Vite, React 19, TypeScript with strict + exact-optional + no-unchecked-indexed-access",
+      "styling": "Tailwind on top of role-named design tokens, dark-first",
+      "tests": "Vitest, React Testing Library, Playwright, axe-core, MSW"
+    },
+    "main_landmark": "Welcome page",
+    "skip_to_content": "Skip to main content",
+    "subtitle": "The deck-builder scaffold is up and running. Routing, theming, i18n, queries, and the test harness are wired in and waiting for the first feature.",
+    "title": "Welcome to Chainsmith"
+  }
+}
