@@ -1,0 +1,206 @@
+{
+  "editor": {
+    "advanced_field": {
+      "cost": "Cost",
+      "defense": "Defense",
+      "format": "Format",
+      "keywords": "Keywords",
+      "power": "Power",
+      "rarity": "Rarity",
+      "set": "Set",
+      "talent": "Talent"
+    },
+    "analytics": {
+      "avg_pitch_value": "Avg pitch value",
+      "card_types": "Card types",
+      "defense_distribution": "Defense distribution",
+      "equipment_slots": "Equipment slots",
+      "go_again_count": "Go again count",
+      "heading": "Analytics",
+      "net_resource": "Net resource",
+      "pct_paren": "({pct}%)",
+      "pitch_distribution": "Pitch distribution",
+      "slot_d_label": "d{n}",
+      "type_action": "Action",
+      "type_attack_action": "Attack action",
+      "type_defense_reaction": "Defense reaction",
+      "type_equipment": "Equipment",
+      "type_instant": "Instant",
+      "zero_cost_cards": "0-cost cards"
+    },
+    "back_to_decks": "Back to decks",
+    "capacity": {
+      "in_label": "in {label}",
+      "pool": "pool"
+    },
+    "card_actions": {
+      "add_one_to_deck": "Add one of {name}",
+      "add_to_deck": "Add {name} to deck",
+      "remove_one_from_deck": "Remove one of {name}"
+    },
+    "card_drawer": {
+      "add_one": "Add one",
+      "copies_in_deck": "copies in deck",
+      "edition_first": "1st",
+      "edition_unlimited": "Unlimited",
+      "format_legality": "Format legality",
+      "in_active_loadout": "in active loadout",
+      "not_legal_short": "Not legal",
+      "orphaned_pool": "In pool but not used in any loadout. {qty} orphaned.",
+      "printing_selected": "Selected",
+      "printing_use_this": "Use this",
+      "printing_used": "Used",
+      "printings": "Printings",
+      "rarity_common": "Common",
+      "remove_one": "Remove one",
+      "remove_from_pool": "Remove from pool",
+      "rules_text": "Rules text",
+      "rules_text_demo": "Instant — If you control an aura, deal 1 arcane damage to target hero. Go again.",
+      "rules_text_label_instant": "Instant — ",
+      "title": "Card details"
+    },
+    "deck_panel": {
+      "deck": "Deck",
+      "deck_capacity": "{n}/{cap}",
+      "equipment": "Equipment & Other",
+      "equipment_count": "{filled}/{total}",
+      "group_action": "Action",
+      "group_attack": "Attack action",
+      "group_equipment": "Equipment",
+      "group_pitch": "Pitch",
+      "group_pitch_n": "Pitch {n}",
+      "group_type": "Type",
+      "pool": "Pool"
+    },
+    "empty": {
+      "body": "Click + on any card in the search grid to add it to your deck.",
+      "heading": "Add cards to get started",
+      "shortcut_help": "Keyboard shortcuts"
+    },
+    "footer": {
+      "load_more_remaining": "Load more ({remaining} remaining)"
+    },
+    "preview": {
+      "empty": "Hover a card to preview",
+      "go_again": "Go again.",
+      "heading": "Preview",
+      "stat_cost": "cost",
+      "stat_def": "def",
+      "stat_pow": "pow"
+    },
+    "rename_hint": "click to rename",
+    "saved_seconds_ago": "Saved {seconds}s ago",
+    "search": {
+      "advanced": "Advanced filters",
+      "advanced_field_any": "Any",
+      "filter_class": "Class · {value}",
+      "filter_pitch_any": "Any",
+      "filter_type": "Type",
+      "kbd_focus_hint": "Press / to focus search",
+      "match_count": "{n} match · showing {shown}",
+      "no_class": "Class",
+      "of_total": "{shown} of {total} cards",
+      "placeholder": "Card name, keyword, or rules text",
+      "subtitle_count": "Search the full catalog",
+      "title": "Find cards"
+    },
+    "slot": {
+      "arms": "Arms",
+      "chest": "Chest",
+      "head": "Head",
+      "legs": "Legs",
+      "main_hand": "Main hand",
+      "off_hand": "Off hand"
+    },
+    "slot_short": {
+      "arms": "A",
+      "chest": "C",
+      "head": "H",
+      "legs": "L",
+      "main_hand": "M",
+      "off_hand": "O"
+    },
+    "title_default": "Stormbind Frostlock",
+    "title_untitled": "Untitled {hero} deck",
+    "variant": "Variant",
+    "variant_modal": {
+      "create": "Create variant",
+      "default_name": "vs. Bravo",
+      "hint": "New variant clones the current loadout's contents.",
+      "intro": "Variants share a card pool and let you tune slices for specific matchups.",
+      "name_label": "Variant name",
+      "title": "Add variant"
+    },
+    "variant_tabs": {
+      "add_variant": "Add variant",
+      "main": "Main",
+      "pool": "Pool",
+      "vs_bravo": "vs. Bravo"
+    },
+    "violations": {
+      "banner_short": "see sidebar for details",
+      "card_not_in_talent": "{card} — not Ice/Elemental",
+      "deck_short_count": "Deck has only {actual} cards (need {target})",
+      "equipment_slot_empty": "Equipment slot empty: {slot}",
+      "heading": "Violations"
+    }
+  },
+  "hero_select": {
+    "back_to_decks": "Back to decks",
+    "filter": {
+      "any": "Any",
+      "class": "Class · {value}",
+      "talent": "Talent · {value}"
+    },
+    "ineligible_heading": "Not legal in {format}",
+    "search_placeholder": "Search heroes",
+    "subtitle": "Choose your format and hero to start brewing.",
+    "tile": {
+      "legal": "Legal",
+      "life_amount": "{n} life",
+      "locked": "Locked"
+    },
+    "title": "Pick a hero"
+  },
+  "list": {
+    "empty": {
+      "body": "Chainsmith is a deck builder for Flesh and Blood. Pick a hero, pick a format, and start brewing.",
+      "title": "Create your first deck"
+    },
+    "filters": {
+      "format": "Format · {value}",
+      "group_by_format": "Group by format",
+      "sort": "Sort · {value}",
+      "sort_last_edited": "Last edited"
+    },
+    "new_deck": "New Deck",
+    "tile": {
+      "delete": "Delete",
+      "duplicate": "Duplicate",
+      "menu": "Tile menu",
+      "open": "Open",
+      "rename": "Rename"
+    },
+    "title": "My Decks",
+    "view": {
+      "grid": "Grid view",
+      "list": "List view"
+    }
+  },
+  "shared": {
+    "analytics": "Analytics",
+    "clone_deck": "Clone this deck",
+    "copy_link": "Copy link",
+    "deck_count": "{n}",
+    "footer_created_by": "Created by {author}",
+    "footer_meta": "Last edited {edited} · {views} views · {clones} clones",
+    "preview_close": "Close preview",
+    "preview_cost": "Cost {n}",
+    "preview_label": "Read-only preview",
+    "report": "Report",
+    "section_deck": "Deck",
+    "section_equipment": "Equipment",
+    "sign_in_callout_body": "Edit your own copy, save it to your library.",
+    "sign_in_callout_title": "Sign in to clone this deck"
+  }
+}

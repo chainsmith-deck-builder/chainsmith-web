@@ -1,0 +1,29 @@
+{
+  "browse": {
+    "filter": {
+      "advanced": "Advanced filters",
+      "any": "Any",
+      "class": "Class",
+      "pitch": "Pitch · ",
+      "type": "Type"
+    },
+    "load_more": "Load more ({remaining} remaining)",
+    "result_count": "{total} cards · showing {shown}",
+    "search_placeholder": "Card name, keyword, or rules text",
+    "subtitle_prefix": "The full Flesh and Blood catalog —",
+    "subtitle_total": "{total} cards across all sets.",
+    "title": "Browse cards"
+  },
+  "filters": {
+    "class": "Class",
+    "defense": "Defense",
+    "format": "Format",
+    "keywords": "Keywords",
+    "pitch": "Pitch",
+    "power": "Power",
+    "rarity": "Rarity",
+    "set": "Set",
+    "talent": "Talent",
+    "type": "Type"
+  }
+}

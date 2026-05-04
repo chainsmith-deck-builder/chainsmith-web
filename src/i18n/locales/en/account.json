@@ -1,0 +1,36 @@
+{
+  "delete": {
+    "button": "Delete my account",
+    "explanation": "Permanently delete your account and all associated decks. This cannot be undone."
+  },
+  "field": {
+    "change_avatar": "Change avatar",
+    "display_name": "Display name",
+    "email": "Email",
+    "language": "Language",
+    "theme": "Theme",
+    "theme_dark": "Dark",
+    "theme_light": "Light"
+  },
+  "page_title": "Account",
+  "section": {
+    "delete_account": "Delete account",
+    "preferences": "Preferences",
+    "profile": "Profile",
+    "sign_out": "Sign out"
+  },
+  "sign_in": {
+    "continue_discord": "Discord",
+    "continue_google": "Google",
+    "email_label": "Email",
+    "forgot_password": "Forgot password?",
+    "no_account_prompt": "Don't have an account?",
+    "or_continue_with": "Or continue with",
+    "page_title": "Sign in",
+    "password_label": "Password",
+    "sign_up": "Sign up",
+    "submit": "Sign in",
+    "subtitle": "Sign in to your Chainsmith account.",
+    "title": "Welcome back"
+  }
+}

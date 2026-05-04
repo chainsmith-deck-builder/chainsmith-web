@@ -11,9 +11,9 @@
    * keyboard-reachable AND focus-visible.
    */
   *:focus-visible {
-    outline: 2px solid var(--accent-brand);
+    outline: 2px solid var(--accent-brand-ring);
     outline-offset: 2px;
-    border-radius: var(--radius-md);
+    border-radius: var(--radius-sm);
   }
 
   html {
@@ -22,10 +22,39 @@
 
   body {
     min-height: 100dvh;
+    font-feature-settings: 'cv11', 'ss01';
+    -webkit-font-smoothing: antialiased;
   }
 
   /* Numeric stats use tabular figures so digits align across rows */
-  .font-mono {
+  .font-mono,
+  code {
     font-feature-settings: 'tnum';
+  }
+}
+
+@layer components {
+  /*
+   * Pitch dot — small color pip used in deck rows, filter chips, and
+   * analytics. The chrome carrying the pip MUST also include a numeric or
+   * textual signal nearby; pitch color alone is a color-confusion target
+   * (see .claude/rules/accessibility.md and fab-domain.md).
+   */
+  .cs-pitch-dot {
+    display: inline-block;
+    border-radius: 999px;
+    flex-shrink: 0;
+  }
+
+  .cs-pitch-dot[data-pitch='1'] {
+    background: var(--viz-pitch-1);
+  }
+
+  .cs-pitch-dot[data-pitch='2'] {
+    background: var(--viz-pitch-2);
+  }
+
+  .cs-pitch-dot[data-pitch='3'] {
+    background: var(--viz-pitch-3);
   }
 }

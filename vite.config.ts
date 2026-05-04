@@ -6,10 +6,10 @@ const PROD_CSP = [
   "default-src 'self'",
   "script-src 'self'",
   // Tailwind/Vite emit a small amount of inline style; revisit with hashes/nonces if it can be removed.
-  "style-src 'self' 'unsafe-inline'",
+  "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
   // LSS CDN for card art (per .claude/rules/security.md and fab-domain.md).
   "img-src 'self' https://cards.fabtcg.com data:",
-  "font-src 'self' data:",
+  "font-src 'self' data: https://fonts.gstatic.com",
   // connect-src is intentionally narrow; widen here as the API + Supabase hosts get wired in.
   "connect-src 'self'",
   "frame-ancestors 'none'",

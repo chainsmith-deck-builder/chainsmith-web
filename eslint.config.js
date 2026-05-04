@@ -64,7 +64,12 @@ export default tseslint.config(
       // it lets route files co-locate their component with the route definition.
       'react-refresh/only-export-components': [
         'warn',
-        { allowConstantExport: true, allowExportNames: ['Route'] },
+        {
+          allowConstantExport: true,
+          // `Route` is the TanStack Router file-based-route convention.
+          // `Icon` is a namespace of icon components shared across the app.
+          allowExportNames: ['Route', 'loader', 'meta', 'links', 'action', 'Icon'],
+        },
       ],
       // Strict TypeScript per .claude/rules/clean-code.md
       '@typescript-eslint/no-explicit-any': 'error',
@@ -92,7 +97,13 @@ export default tseslint.config(
           },
           callees: { exclude: ['t', 'i18nKey', 'cn', 'clsx'] },
           words: {
-            exclude: ['^[A-Z_][A-Z0-9_]*$', '^[\\d\\s.,$%/+\\-:×]+$'],
+            // Allow constant-style identifiers and pure punctuation/number runs
+            // ("60/60", "·", "—", "?"); these are typographic separators or
+            // numeric data that don't need translation.
+            exclude: [
+              '^[A-Z_][A-Z0-9_]*$',
+              '^[\\d\\s.,$%/+\\-:×·—–?−!]+$',
+            ],
           },
         },
       ],

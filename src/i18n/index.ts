@@ -5,6 +5,9 @@ import ICU from 'i18next-icu';
 
 import commonEn from './locales/en/common.json';
 import errorsEn from './locales/en/errors.json';
+import deckEn from './locales/en/deck.json';
+import catalogEn from './locales/en/catalog.json';
+import accountEn from './locales/en/account.json';
 
 export const defaultNS = 'common' as const;
 
@@ -12,6 +15,9 @@ export const resources = {
   en: {
     common: commonEn,
     errors: errorsEn,
+    deck: deckEn,
+    catalog: catalogEn,
+    account: accountEn,
   },
 } as const;
 
@@ -23,7 +29,7 @@ await i18next
     fallbackLng: 'en',
     supportedLngs: ['en'],
     defaultNS,
-    ns: ['common', 'errors'],
+    ns: ['common', 'errors', 'deck', 'catalog', 'account'],
     resources,
     // React handles HTML escaping; i18next interpolation should not double-escape.
     interpolation: { escapeValue: false },
