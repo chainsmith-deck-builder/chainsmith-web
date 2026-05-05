@@ -247,6 +247,53 @@ describe('BrowseCardsScreen', () => {
     await waitFor(() => expect(lastQuery?.get('format')).toBe('blitz'));
   });
 
+  it('opens the card detail panel when a tile is clicked and closes via Esc', async () => {
+    server.use(
+      http.get(apiUrl('/cards'), () =>
+        HttpResponse.json({ items: [blazingAether], nextCursor: null }),
+      ),
+      http.get(apiUrl('/cards/blazing-aether'), () =>
+        HttpResponse.json({
+          card: {
+            ...blazingAether,
+            subtypes: ['Aura'],
+            keywords: ['Frostbite'],
+            specializations: [],
+            functionalText: 'When this resolves, freeze a thing.',
+            typeText: 'Wizard Action — Aura',
+          },
+          printings: [
+            {
+              id: 'p1',
+              cardId: 'blazing-aether',
+              set: 'EVR',
+              setReleaseDate: '2024-01-01',
+              edition: 'first',
+              foiling: 'standard',
+              treatment: 'standard',
+              rarity: 'rare',
+              collectorNumber: '001',
+              imageUrl: 'https://example.test/aether.png',
+            },
+          ],
+        }),
+      ),
+    );
+    renderScreen();
+    await userEvent.click(await screen.findByRole('button', { name: 'Blazing Aether' }));
+
+    expect(await screen.findByRole('dialog', { name: /card details/i })).toBeInTheDocument();
+    expect(
+      await screen.findByRole('heading', { level: 3, name: 'Blazing Aether' }),
+    ).toBeInTheDocument();
+    expect(screen.getByText(/when this resolves, freeze a thing/i)).toBeInTheDocument();
+
+    await userEvent.keyboard('{Escape}');
+    await waitFor(() =>
+      expect(screen.queryByRole('dialog', { name: /card details/i })).not.toBeInTheDocument(),
+    );
+  });
+
   it('passes a selected pitch as a numeric query param and updates the pill', async () => {
     let lastQuery: URLSearchParams | undefined;
     server.use(

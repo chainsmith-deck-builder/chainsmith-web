@@ -9,6 +9,21 @@
       "format_any": "Any",
       "talent": "Talent"
     },
+    "detail": {
+      "close": "Close card details",
+      "cost": "Cost",
+      "defense": "Defense",
+      "error": "We couldn't load this card.",
+      "legality_heading": "Format legality",
+      "loading": "Loading card…",
+      "pitch": "Pitch",
+      "power": "Power",
+      "printings_heading": "Printings ({count})",
+      "printings_heading_one": "",
+      "printings_heading_other": "",
+      "rules_empty": "No rules text.",
+      "title": "Card details"
+    },
     "empty": "No cards match those filters.",
     "error": {
       "retry": "Try again",

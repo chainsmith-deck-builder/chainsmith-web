@@ -18,6 +18,9 @@ export type CardId = components['schemas']['CardId'];
 
 export type CardSummary = components['schemas']['CardSummary'];
 export type CardType = components['schemas']['CardType'];
+export type CardDetail = components['schemas']['CardDetail'];
+export type Card = components['schemas']['Card'];
+export type Printing = components['schemas']['Printing'];
 
 export type ErrorBody = components['schemas']['ErrorBody'];
 export type ErrorCode = components['schemas']['ErrorCode'];

@@ -8,6 +8,7 @@ import { useCards } from './useCards';
 import { BrowseCardTile } from './BrowseCardTile';
 import { BrowseFilters } from './BrowseFilters';
 import { AdvancedFilters } from './AdvancedFilters';
+import { CardDetailPanel } from './CardDetailPanel';
 import { EMPTY_FILTERS, countAdvancedActive, type FilterValues } from './filterValues';
 
 const SEARCH_DEBOUNCE_MS = 300;
@@ -22,6 +23,7 @@ export function BrowseCardsScreen() {
   const [debouncedText, setDebouncedText] = useState('');
   const [filters, setFilters] = useState<FilterValues>(EMPTY_FILTERS);
   const [advancedOpen, setAdvancedOpen] = useState(false);
+  const [selectedCardId, setSelectedCardId] = useState<string | null>(null);
 
   // Debounce: typing rapidly shouldn't fire a request per keystroke. The
   // cancel-on-rerun guarantees only the last edit's timer survives.
@@ -173,7 +175,11 @@ export function BrowseCardsScreen() {
             style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(140px, 1fr))' }}
           >
             {cards.map((c) => (
-              <BrowseCardTile key={c.id} card={c} />
+              <BrowseCardTile
+                key={c.id}
+                card={c}
+                onClick={(card) => setSelectedCardId(card.id)}
+              />
             ))}
           </div>
         )}
@@ -192,6 +198,8 @@ export function BrowseCardsScreen() {
           </div>
         )}
       </main>
+
+      <CardDetailPanel cardId={selectedCardId} onClose={() => setSelectedCardId(null)} />
     </div>
   );
 }

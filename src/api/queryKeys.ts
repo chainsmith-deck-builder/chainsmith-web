@@ -44,5 +44,6 @@ export const queryKeys = {
       params === undefined
         ? (['cards', 'list'] as const)
         : (['cards', 'list', params] as const),
+    detail: (id: CardId) => (['cards', 'detail', { id }] as const),
   },
 } as const;
