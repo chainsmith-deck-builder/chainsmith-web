@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { FilterMenu } from '../../components/FilterMenu';
 import { PitchDot } from '../../components/PitchDot';
 import type { CardType, Class } from '../../api/types';
+import type { FilterValues } from './filterValues';
 
 const ALL_CLASSES: readonly Class[] = [
   'assassin',
@@ -38,12 +39,6 @@ const ALL_TYPES: readonly CardType[] = [
 ];
 
 const PITCH_OPTIONS: readonly (1 | 2 | 3)[] = [1, 2, 3];
-
-export type FilterValues = {
-  readonly classes: readonly Class[];
-  readonly types: readonly CardType[];
-  readonly pitch: 1 | 2 | 3 | undefined;
-};
 
 type Props = {
   values: FilterValues;

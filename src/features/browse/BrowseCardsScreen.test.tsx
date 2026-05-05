@@ -188,6 +188,65 @@ describe('BrowseCardsScreen', () => {
     ).toBeInTheDocument();
   });
 
+  it('passes talents from the advanced panel as a CSV query param', async () => {
+    let lastQuery: URLSearchParams | undefined;
+    server.use(
+      http.get(apiUrl('/cards'), ({ request }) => {
+        lastQuery = new URL(request.url).searchParams;
+        return HttpResponse.json({ items: [blazingAether], nextCursor: null });
+      }),
+    );
+    renderScreen();
+    await screen.findByRole('button', { name: 'Blazing Aether' });
+
+    await userEvent.click(screen.getByRole('button', { name: /advanced filters/i }));
+    await userEvent.click(screen.getByRole('switch', { name: 'Ice' }));
+
+    await waitFor(() => expect(lastQuery?.get('talents')).toBe('ice'));
+    // Trigger label flips to count active advanced dimensions.
+    expect(
+      await screen.findByRole('button', { name: /advanced · 1 applied/i }),
+    ).toBeInTheDocument();
+  });
+
+  it('sends costMin / costMax when the user fills the cost range', async () => {
+    let lastQuery: URLSearchParams | undefined;
+    server.use(
+      http.get(apiUrl('/cards'), ({ request }) => {
+        lastQuery = new URL(request.url).searchParams;
+        return HttpResponse.json({ items: [blazingAether], nextCursor: null });
+      }),
+    );
+    renderScreen();
+    await screen.findByRole('button', { name: 'Blazing Aether' });
+
+    await userEvent.click(screen.getByRole('button', { name: /advanced filters/i }));
+    await userEvent.type(screen.getByRole('spinbutton', { name: /min/i }), '0');
+    await userEvent.type(screen.getByRole('spinbutton', { name: /max/i }), '3');
+
+    await waitFor(() => {
+      expect(lastQuery?.get('costMin')).toBe('0');
+      expect(lastQuery?.get('costMax')).toBe('3');
+    });
+  });
+
+  it('sends a format query param when the user picks a format radio', async () => {
+    let lastQuery: URLSearchParams | undefined;
+    server.use(
+      http.get(apiUrl('/cards'), ({ request }) => {
+        lastQuery = new URL(request.url).searchParams;
+        return HttpResponse.json({ items: [blazingAether], nextCursor: null });
+      }),
+    );
+    renderScreen();
+    await screen.findByRole('button', { name: 'Blazing Aether' });
+
+    await userEvent.click(screen.getByRole('button', { name: /advanced filters/i }));
+    await userEvent.click(screen.getByRole('radio', { name: 'Blitz' }));
+
+    await waitFor(() => expect(lastQuery?.get('format')).toBe('blitz'));
+  });
+
   it('passes a selected pitch as a numeric query param and updates the pill', async () => {
     let lastQuery: URLSearchParams | undefined;
     server.use(

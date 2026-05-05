@@ -6,7 +6,9 @@ import { Icon } from '../../components/Icon';
 import { Button } from '../../components/Button';
 import { useCards } from './useCards';
 import { BrowseCardTile } from './BrowseCardTile';
-import { BrowseFilters, type FilterValues } from './BrowseFilters';
+import { BrowseFilters } from './BrowseFilters';
+import { AdvancedFilters } from './AdvancedFilters';
+import { EMPTY_FILTERS, countAdvancedActive, type FilterValues } from './filterValues';
 
 const SEARCH_DEBOUNCE_MS = 300;
 
@@ -18,11 +20,8 @@ export function BrowseCardsScreen() {
   const { t } = useTranslation('catalog');
   const [searchInput, setSearchInput] = useState('');
   const [debouncedText, setDebouncedText] = useState('');
-  const [filters, setFilters] = useState<FilterValues>({
-    classes: [],
-    types: [],
-    pitch: undefined,
-  });
+  const [filters, setFilters] = useState<FilterValues>(EMPTY_FILTERS);
+  const [advancedOpen, setAdvancedOpen] = useState(false);
 
   // Debounce: typing rapidly shouldn't fire a request per keystroke. The
   // cancel-on-rerun guarantees only the last edit's timer survives.
@@ -37,9 +36,15 @@ export function BrowseCardsScreen() {
       ...(filters.classes.length > 0 ? { classes: filters.classes } : {}),
       ...(filters.types.length > 0 ? { types: filters.types } : {}),
       ...(filters.pitch !== undefined ? { pitch: filters.pitch } : {}),
+      ...(filters.talents.length > 0 ? { talents: filters.talents } : {}),
+      ...(filters.costMin !== undefined ? { costMin: filters.costMin } : {}),
+      ...(filters.costMax !== undefined ? { costMax: filters.costMax } : {}),
+      ...(filters.format !== undefined ? { format: filters.format } : {}),
     }),
     [debouncedText, filters],
   );
+
+  const advancedActive = countAdvancedActive(filters);
 
   const cardsQuery = useCards(params);
   const cards = useMemo(
@@ -105,9 +110,20 @@ export function BrowseCardsScreen() {
           <BrowseFilters values={filters} onChange={setFilters} />
           <button
             type="button"
-            className="inline-flex h-7 items-center gap-1.5 rounded-md px-2.5 text-[12.5px] text-text-secondary transition-colors duration-fast hover:bg-bg-raised hover:text-text-primary"
+            aria-expanded={advancedOpen}
+            aria-controls="browse-advanced-panel"
+            onClick={() => setAdvancedOpen((prev) => !prev)}
+            className="inline-flex h-7 items-center gap-1.5 rounded-md px-2.5 text-[12.5px] font-medium transition-colors duration-fast hover:bg-bg-raised"
+            style={{
+              color:
+                advancedActive > 0 ? 'var(--text-primary)' : 'var(--text-secondary)',
+              background: advancedActive > 0 ? 'var(--accent-brand-soft)' : 'transparent',
+            }}
           >
-            <Icon.filter /> {t('browse.filter.advanced')}
+            <Icon.filter />
+            {advancedActive > 0
+              ? t('browse.filter.advanced_active', { count: advancedActive })
+              : t('browse.filter.advanced')}
           </button>
           <span
             className="ms-auto self-center font-mono text-[11.5px] text-text-muted"
@@ -118,6 +134,12 @@ export function BrowseCardsScreen() {
               : t('browse.result_count_all', { shown: cards.length })}
           </span>
         </div>
+
+        {advancedOpen && (
+          <div id="browse-advanced-panel">
+            <AdvancedFilters values={filters} onChange={setFilters} />
+          </div>
+        )}
 
         {cardsQuery.isPending && (
           <div role="status" className="py-8 text-[13px] text-text-muted">

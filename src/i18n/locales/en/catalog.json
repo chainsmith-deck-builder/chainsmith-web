@@ -1,5 +1,14 @@
 {
   "browse": {
+    "advanced": {
+      "clear": "Clear advanced filters",
+      "cost": "Cost",
+      "cost_max_placeholder": "Max",
+      "cost_min_placeholder": "Min",
+      "format": "Format",
+      "format_any": "Any",
+      "talent": "Talent"
+    },
     "empty": "No cards match those filters.",
     "error": {
       "retry": "Try again",
@@ -7,6 +16,9 @@
     },
     "filter": {
       "advanced": "Advanced filters",
+      "advanced_active": "Advanced · {count, plural, one {# applied} other {# applied}}",
+      "advanced_active_one": "",
+      "advanced_active_other": "",
       "any": "Any",
       "class": "Class",
       "class_active": "Class · {count, plural, one {# selected} other {# selected}}",
