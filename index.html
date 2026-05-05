@@ -11,6 +11,11 @@
     <title>Chainsmith</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!-- Card-image CDNs: warm the TLS handshake before the first <img> fetch.
+         Upstream sets `cache-control: max-age=900`, so revalidation round-trips
+         are common; preconnect at least removes handshake latency. -->
+    <link rel="preconnect" href="https://d2wlb52bya4y8z.cloudfront.net" crossorigin />
+    <link rel="preconnect" href="https://storage.googleapis.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap"
       rel="stylesheet"
