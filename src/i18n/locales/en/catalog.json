@@ -14,6 +14,21 @@
     "subtitle_total": "{total} cards across all sets.",
     "title": "Browse cards"
   },
+  "class": {
+    "assassin": "Assassin",
+    "bard": "Bard",
+    "brute": "Brute",
+    "guardian": "Guardian",
+    "illusionist": "Illusionist",
+    "mechanologist": "Mechanologist",
+    "merchant": "Merchant",
+    "ninja": "Ninja",
+    "ranger": "Ranger",
+    "runeblade": "Runeblade",
+    "shapeshifter": "Shapeshifter",
+    "warrior": "Warrior",
+    "wizard": "Wizard"
+  },
   "filters": {
     "class": "Class",
     "defense": "Defense",
@@ -25,5 +40,15 @@
     "set": "Set",
     "talent": "Talent",
     "type": "Type"
+  },
+  "talent": {
+    "draconic": "Draconic",
+    "earth": "Earth",
+    "elemental": "Elemental",
+    "ice": "Ice",
+    "light": "Light",
+    "lightning": "Lightning",
+    "shadow": "Shadow",
+    "wind": "Wind"
   }
 }

@@ -10,6 +10,12 @@ export default defineConfig({
     css: true,
     include: ['src/**/*.{test,spec}.{ts,tsx}'],
     exclude: ['tests/**', 'node_modules/**', 'dist/**'],
+    // Pin VITE_API_BASE_URL for tests so MSW handlers and the runtime client
+    // agree on the host. The dev .env points at localhost:8080; tests use a
+    // synthetic origin so handlers don't accidentally match a dev backend.
+    env: {
+      VITE_API_BASE_URL: 'http://api.test',
+    },
     coverage: {
       provider: 'v8',
       reporter: ['text', 'html'],

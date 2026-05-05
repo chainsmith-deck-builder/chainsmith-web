@@ -21,6 +21,11 @@
     "classic_constructed": "Classic Constructed",
     "commoner": "Commoner"
   },
+  "format_short": {
+    "blitz": "Blitz",
+    "classic_constructed": "Classic",
+    "commoner": "Commoner"
+  },
   "nav": {
     "browse_cards": "Browse Cards",
     "deck_builder": "Deck Builder",
@@ -37,6 +42,7 @@
     "issues_short": "{count, plural, one {# issue} other {# issues}}",
     "legal": "Legal",
     "not_legal_in": "Not legal in {format}",
+    "retired_to_ll": "Retired to LL",
     "violations": "{count, plural, one {# violation} other {# violations}}",
     "violations_one": "",
     "violations_other": ""

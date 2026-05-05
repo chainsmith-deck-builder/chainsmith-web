@@ -1,1 +1,14 @@
-{}
+{
+  "code": {
+    "auth_not_configured": "Authentication isn't configured for this environment.",
+    "conflict": "That change conflicts with newer changes. Reload and try again.",
+    "database_error": "Something went wrong on our end. Please try again.",
+    "forbidden": "You don't have access to that.",
+    "not_found": "We couldn't find what you were looking for.",
+    "precondition_required": "This action needs more information before it can run.",
+    "unauthorized": "Sign in to continue.",
+    "unsupported_format": "That format isn't supported."
+  },
+  "generic": "Something went wrong. Please try again.",
+  "network": "We couldn't reach the server. Check your connection and try again."
+}

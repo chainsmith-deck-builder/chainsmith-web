@@ -147,18 +147,26 @@
   },
   "hero_select": {
     "back_to_decks": "Back to decks",
+    "empty": "No heroes match this filter yet.",
+    "error": {
+      "retry": "Try again",
+      "title": "We couldn't load the hero list."
+    },
     "filter": {
       "any": "Any",
       "class": "Class · {value}",
       "talent": "Talent · {value}"
     },
     "ineligible_heading": "Not legal in {format}",
+    "loading": "Loading heroes…",
+    "retired_heading": "Retired to Living Legend",
     "search_placeholder": "Search heroes",
     "subtitle": "Choose your format and hero to start brewing.",
     "tile": {
       "legal": "Legal",
       "life_amount": "{n} life",
-      "locked": "Locked"
+      "locked": "Locked",
+      "retired": "Retired"
     },
     "title": "Pick a hero"
   },
