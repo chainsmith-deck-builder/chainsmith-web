@@ -1,8 +1,11 @@
+import type { ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from '@tanstack/react-router';
 
+type ActiveKey = 'editor' | 'decks' | 'browse';
+
 type Props = {
-  active?: 'editor' | 'decks' | 'browse';
+  active?: ActiveKey;
   signedIn?: boolean;
 };
 
@@ -24,9 +27,15 @@ export function GlobalHeader({ active = 'decks', signedIn = true }: Props) {
         </span>
       </Link>
       <nav className="flex gap-1">
-        <NavLink active={active === 'editor'}>{t('nav.deck_builder')}</NavLink>
-        <NavLink active={active === 'decks'}>{t('nav.my_decks')}</NavLink>
-        <NavLink active={active === 'browse'}>{t('nav.browse_cards')}</NavLink>
+        <NavLink to="/decks/new" active={active === 'editor'}>
+          {t('nav.deck_builder')}
+        </NavLink>
+        <NavLink to="/" active={active === 'decks'}>
+          {t('nav.my_decks')}
+        </NavLink>
+        <NavLink to="/browse" active={active === 'browse'}>
+          {t('nav.browse_cards')}
+        </NavLink>
       </nav>
       <div className="ms-auto flex items-center gap-2">
         {signedIn ? (
@@ -38,28 +47,37 @@ export function GlobalHeader({ active = 'decks', signedIn = true }: Props) {
             JM
           </span>
         ) : (
-          <button
-            type="button"
+          <Link
+            to="/sign-in"
             className="inline-flex h-8 items-center gap-1.5 rounded-md border border-border-subtle bg-bg-raised px-3.5 text-[13px] font-medium text-text-primary transition-colors duration-fast hover:bg-bg-overlay"
           >
             {t('actions.sign_in')}
-          </button>
+          </Link>
         )}
       </div>
     </header>
   );
 }
 
-function NavLink({ active = false, children }: { active?: boolean; children: React.ReactNode }) {
+function NavLink({
+  to,
+  active,
+  children,
+}: {
+  to: '/' | '/browse' | '/decks/new';
+  active: boolean;
+  children: ReactNode;
+}) {
   return (
-    <span
-      className="cursor-pointer rounded-md px-2.5 py-1.5 text-[13px] font-medium"
+    <Link
+      to={to}
+      className="rounded-md px-2.5 py-1.5 text-[13px] font-medium transition-colors duration-fast"
       style={{
         color: active ? 'var(--text-primary)' : 'var(--text-secondary)',
         background: active ? 'var(--bg-raised)' : 'transparent',
       }}
     >
       {children}
-    </span>
+    </Link>
   );
 }
