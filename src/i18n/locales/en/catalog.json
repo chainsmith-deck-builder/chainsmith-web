@@ -1,5 +1,10 @@
 {
   "browse": {
+    "empty": "No cards match those filters.",
+    "error": {
+      "retry": "Try again",
+      "title": "We couldn't load the catalog."
+    },
     "filter": {
       "advanced": "Advanced filters",
       "any": "Any",
@@ -7,11 +12,13 @@
       "pitch": "Pitch · ",
       "type": "Type"
     },
-    "load_more": "Load more ({remaining} remaining)",
-    "result_count": "{total} cards · showing {shown}",
+    "load_more_button": "Load more",
+    "loading": "Loading cards…",
+    "loading_more": "Loading…",
+    "result_count_all": "{shown, plural, one {# card} other {# cards}}",
+    "result_count_more": "{shown, plural, one {# card} other {# cards}} loaded",
     "search_placeholder": "Card name, keyword, or rules text",
-    "subtitle_prefix": "The full Flesh and Blood catalog —",
-    "subtitle_total": "{total} cards across all sets.",
+    "subtitle": "The full Flesh and Blood catalog.",
     "title": "Browse cards"
   },
   "class": {

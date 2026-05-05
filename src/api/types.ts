@@ -16,5 +16,8 @@ export type EssenceGrant = components['schemas']['EssenceGrant'];
 export type PrintingSummary = components['schemas']['PrintingSummary'];
 export type CardId = components['schemas']['CardId'];
 
+export type CardSummary = components['schemas']['CardSummary'];
+export type CardType = components['schemas']['CardType'];
+
 export type ErrorBody = components['schemas']['ErrorBody'];
 export type ErrorCode = components['schemas']['ErrorCode'];

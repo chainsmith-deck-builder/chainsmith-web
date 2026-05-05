@@ -1,14 +1,40 @@
+import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+
 import { GlobalHeader } from '../../components/GlobalHeader';
-import { CardTile } from '../../components/CardTile';
 import { Pill } from '../../components/Pill';
 import { PitchDot } from '../../components/PitchDot';
 import { Icon } from '../../components/Icon';
 import { Button } from '../../components/Button';
-import { CARDS } from '../../domain/cards';
+import { useCards } from './useCards';
+import { BrowseCardTile } from './BrowseCardTile';
+
+const SEARCH_DEBOUNCE_MS = 300;
 
 export function BrowseCardsScreen() {
   const { t } = useTranslation('catalog');
+  const [searchInput, setSearchInput] = useState('');
+  const [debouncedText, setDebouncedText] = useState('');
+
+  // Debounce: typing rapidly shouldn't fire a request per keystroke. The
+  // cancel-on-rerun guarantees only the last edit's timer survives.
+  useEffect(() => {
+    const id = window.setTimeout(() => setDebouncedText(searchInput), SEARCH_DEBOUNCE_MS);
+    return () => window.clearTimeout(id);
+  }, [searchInput]);
+
+  const params = useMemo(
+    () => (debouncedText.trim().length > 0 ? { text: debouncedText.trim() } : {}),
+    [debouncedText],
+  );
+
+  const cardsQuery = useCards(params);
+  const cards = useMemo(
+    () => cardsQuery.data?.pages.flatMap((p) => p.items) ?? [],
+    [cardsQuery.data],
+  );
+  const hasMore = Boolean(cardsQuery.hasNextPage);
+
   return (
     <div className="flex min-h-dvh flex-col overflow-auto bg-bg-base text-text-primary">
       <GlobalHeader active="browse" />
@@ -24,22 +50,25 @@ export function BrowseCardsScreen() {
         >
           {t('browse.title')}
         </h1>
-        <p className="m-0 mb-5 text-[13px] text-text-muted">
-          {t('browse.subtitle_prefix')}{' '}
-          <span className="font-mono">{t('browse.subtitle_total', { total: '1,247' })}</span>
-        </p>
+        <p className="m-0 mb-5 text-[13px] text-text-muted">{t('browse.subtitle')}</p>
 
         <div className="relative mb-3">
           <span className="pointer-events-none absolute start-3 top-1/2 -translate-y-1/2 text-text-muted">
             <Icon.search />
           </span>
           <input
+            type="search"
+            value={searchInput}
+            onChange={(e) => setSearchInput(e.target.value)}
             placeholder={t('browse.search_placeholder')}
             aria-label={t('browse.search_placeholder')}
             className="block h-10 w-full rounded-md border border-border-subtle bg-bg-input ps-9 pe-3 text-[13.5px] text-text-primary outline-none"
           />
         </div>
 
+        {/* Filter chips — visual only at this slice. Wiring class/type/pitch
+            against the typed `useCards` params is a follow-up; the api hook
+            already accepts them. */}
         <div className="mb-4 flex flex-wrap gap-1.5">
           <Pill>
             {t('browse.filter.class')} <Icon.chevron />
@@ -63,23 +92,66 @@ export function BrowseCardsScreen() {
           >
             <Icon.filter /> {t('browse.filter.advanced')}
           </button>
-          <span className="ms-auto self-center font-mono text-[11.5px] text-text-muted">
-            {t('browse.result_count', { total: '1,247', shown: 24 })}
+          <span
+            className="ms-auto self-center font-mono text-[11.5px] text-text-muted"
+            aria-live="polite"
+          >
+            {hasMore
+              ? t('browse.result_count_more', { shown: cards.length })
+              : t('browse.result_count_all', { shown: cards.length })}
           </span>
         </div>
 
-        <div
-          className="grid gap-3.5"
-          style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(140px, 1fr))' }}
-        >
-          {CARDS.slice(0, 18).map((c) => (
-            <CardTile key={c.id} card={c} />
-          ))}
-        </div>
+        {cardsQuery.isPending && (
+          <div role="status" className="py-8 text-[13px] text-text-muted">
+            {t('browse.loading')}
+          </div>
+        )}
 
-        <div className="mt-7 flex justify-center">
-          <Button variant="secondary">{t('browse.load_more', { remaining: '1,229' })}</Button>
-        </div>
+        {cardsQuery.isError && (
+          <div
+            role="alert"
+            className="rounded-xl border border-border-subtle bg-bg-raised p-6 text-[13px] text-text-secondary"
+          >
+            <p className="m-0 font-semibold text-text-primary">{t('browse.error.title')}</p>
+            <button
+              type="button"
+              onClick={() => void cardsQuery.refetch()}
+              className="mt-3 inline-flex h-8 items-center rounded-md border border-border-subtle bg-bg-base px-3 text-[12.5px] font-medium hover:bg-bg-overlay"
+            >
+              {t('browse.error.retry')}
+            </button>
+          </div>
+        )}
+
+        {cardsQuery.isSuccess && cards.length === 0 && (
+          <p className="py-8 text-[13px] text-text-muted">{t('browse.empty')}</p>
+        )}
+
+        {cards.length > 0 && (
+          <div
+            className="grid gap-3.5"
+            style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(140px, 1fr))' }}
+          >
+            {cards.map((c) => (
+              <BrowseCardTile key={c.id} card={c} />
+            ))}
+          </div>
+        )}
+
+        {hasMore && (
+          <div className="mt-7 flex justify-center">
+            <Button
+              variant="secondary"
+              onClick={() => void cardsQuery.fetchNextPage()}
+              disabled={cardsQuery.isFetchingNextPage}
+            >
+              {cardsQuery.isFetchingNextPage
+                ? t('browse.loading_more')
+                : t('browse.load_more_button')}
+            </Button>
+          </div>
+        )}
       </main>
     </div>
   );
