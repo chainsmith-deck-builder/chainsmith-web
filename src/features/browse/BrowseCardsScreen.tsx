@@ -2,12 +2,11 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { GlobalHeader } from '../../components/GlobalHeader';
-import { Pill } from '../../components/Pill';
-import { PitchDot } from '../../components/PitchDot';
 import { Icon } from '../../components/Icon';
 import { Button } from '../../components/Button';
 import { useCards } from './useCards';
 import { BrowseCardTile } from './BrowseCardTile';
+import { BrowseFilters, type FilterValues } from './BrowseFilters';
 
 const SEARCH_DEBOUNCE_MS = 300;
 
@@ -19,6 +18,11 @@ export function BrowseCardsScreen() {
   const { t } = useTranslation('catalog');
   const [searchInput, setSearchInput] = useState('');
   const [debouncedText, setDebouncedText] = useState('');
+  const [filters, setFilters] = useState<FilterValues>({
+    classes: [],
+    types: [],
+    pitch: undefined,
+  });
 
   // Debounce: typing rapidly shouldn't fire a request per keystroke. The
   // cancel-on-rerun guarantees only the last edit's timer survives.
@@ -28,8 +32,13 @@ export function BrowseCardsScreen() {
   }, [searchInput]);
 
   const params = useMemo(
-    () => (debouncedText.trim().length > 0 ? { text: debouncedText.trim() } : {}),
-    [debouncedText],
+    () => ({
+      ...(debouncedText.trim().length > 0 ? { text: debouncedText.trim() } : {}),
+      ...(filters.classes.length > 0 ? { classes: filters.classes } : {}),
+      ...(filters.types.length > 0 ? { types: filters.types } : {}),
+      ...(filters.pitch !== undefined ? { pitch: filters.pitch } : {}),
+    }),
+    [debouncedText, filters],
   );
 
   const cardsQuery = useCards(params);
@@ -92,26 +101,8 @@ export function BrowseCardsScreen() {
           />
         </div>
 
-        {/* Filter chips — visual only at this slice. Wiring class/type/pitch
-            against the typed `useCards` params is a follow-up; the api hook
-            already accepts them. */}
-        <div className="mb-4 flex flex-wrap gap-1.5">
-          <Pill>
-            {t('browse.filter.class')} <Icon.chevron />
-          </Pill>
-          <Pill>
-            {t('browse.filter.type')} <Icon.chevron />
-          </Pill>
-          <Pill>
-            {t('browse.filter.pitch')}
-            <span className="inline-flex items-center gap-1">
-              <PitchDot pitch={1} size={6} />
-              <PitchDot pitch={2} size={6} />
-              <PitchDot pitch={3} size={6} />
-              <span className="ms-1 text-text-muted">{t('browse.filter.any')}</span>
-            </span>{' '}
-            <Icon.chevron />
-          </Pill>
+        <div className="mb-4 flex flex-wrap items-center gap-1.5">
+          <BrowseFilters values={filters} onChange={setFilters} />
           <button
             type="button"
             className="inline-flex h-7 items-center gap-1.5 rounded-md px-2.5 text-[12.5px] text-text-secondary transition-colors duration-fast hover:bg-bg-raised hover:text-text-primary"

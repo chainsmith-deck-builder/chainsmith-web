@@ -9,8 +9,16 @@
       "advanced": "Advanced filters",
       "any": "Any",
       "class": "Class",
-      "pitch": "Pitch · ",
-      "type": "Type"
+      "class_active": "Class · {count, plural, one {# selected} other {# selected}}",
+      "class_active_one": "",
+      "class_active_other": "",
+      "clear": "Clear",
+      "pitch": "Pitch",
+      "pitch_active": "Pitch · {value}",
+      "type": "Type",
+      "type_active": "Type · {count, plural, one {# selected} other {# selected}}",
+      "type_active_one": "",
+      "type_active_other": ""
     },
     "load_more_button": "Load more",
     "loading": "Loading cards…",
@@ -57,5 +65,18 @@
     "lightning": "Lightning",
     "shadow": "Shadow",
     "wind": "Wind"
+  },
+  "type": {
+    "action": "Action",
+    "attack_action": "Attack action",
+    "attack_reaction": "Attack reaction",
+    "defense_reaction": "Defense reaction",
+    "equipment": "Equipment",
+    "hero": "Hero",
+    "instant": "Instant",
+    "mentor": "Mentor",
+    "resource": "Resource",
+    "token": "Token",
+    "weapon": "Weapon"
   }
 }

@@ -161,4 +161,48 @@ describe('BrowseCardsScreen', () => {
     renderScreen();
     expect(await screen.findByText(/no cards match/i)).toBeInTheDocument();
   });
+
+  it('passes selected class filters as a comma-separated query param', async () => {
+    let lastQuery: URLSearchParams | undefined;
+    server.use(
+      http.get(apiUrl('/cards'), ({ request }) => {
+        lastQuery = new URL(request.url).searchParams;
+        const classes = lastQuery.get('classes');
+        const items =
+          classes === null || classes === ''
+            ? [blazingAether, frostbite, wanigMoon]
+            : [blazingAether, frostbite];
+        return HttpResponse.json({ items, nextCursor: null });
+      }),
+    );
+    renderScreen();
+    await screen.findByRole('button', { name: 'Blazing Aether' });
+
+    await userEvent.click(screen.getByRole('button', { name: 'Class' }));
+    await userEvent.click(screen.getByRole('menuitemcheckbox', { name: 'Wizard' }));
+
+    await waitFor(() => expect(lastQuery?.get('classes')).toBe('wizard'));
+    // The pill swaps to its active "Class · 1 selected" label.
+    expect(
+      await screen.findByRole('button', { name: /class · 1 selected/i }),
+    ).toBeInTheDocument();
+  });
+
+  it('passes a selected pitch as a numeric query param and updates the pill', async () => {
+    let lastQuery: URLSearchParams | undefined;
+    server.use(
+      http.get(apiUrl('/cards'), ({ request }) => {
+        lastQuery = new URL(request.url).searchParams;
+        return HttpResponse.json({ items: [blazingAether], nextCursor: null });
+      }),
+    );
+    renderScreen();
+    await screen.findByRole('button', { name: 'Blazing Aether' });
+
+    await userEvent.click(screen.getByRole('button', { name: /pitch/i }));
+    await userEvent.click(screen.getByRole('menuitemradio', { name: /pitch · 2/i }));
+
+    await waitFor(() => expect(lastQuery?.get('pitch')).toBe('2'));
+    expect(await screen.findByRole('button', { name: /pitch · 2/i })).toBeInTheDocument();
+  });
 });
