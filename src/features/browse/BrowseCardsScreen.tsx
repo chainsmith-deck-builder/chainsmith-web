@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { GlobalHeader } from '../../components/GlobalHeader';
@@ -10,6 +10,10 @@ import { useCards } from './useCards';
 import { BrowseCardTile } from './BrowseCardTile';
 
 const SEARCH_DEBOUNCE_MS = 300;
+
+// Pre-fetch the next page when the sentinel button gets within this much of
+// the viewport, so cards stream in slightly before the user reaches the end.
+const INFINITE_SCROLL_ROOT_MARGIN = '400px';
 
 export function BrowseCardsScreen() {
   const { t } = useTranslation('catalog');
@@ -34,6 +38,28 @@ export function BrowseCardsScreen() {
     [cardsQuery.data],
   );
   const hasMore = Boolean(cardsQuery.hasNextPage);
+  const { fetchNextPage, isFetchingNextPage } = cardsQuery;
+
+  // Infinite scroll: observe the load-more button as the sentinel. The
+  // button stays visible and clickable as a keyboard / no-IO fallback (see
+  // .claude/rules/accessibility.md) — auto-fetch is the mouse-scroll
+  // shortcut, not the only path forward.
+  const loadMoreRef = useRef<HTMLButtonElement | null>(null);
+  useEffect(() => {
+    const node = loadMoreRef.current;
+    if (!node || !hasMore) return;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const entry = entries[0];
+        if (entry?.isIntersecting && !isFetchingNextPage) {
+          void fetchNextPage();
+        }
+      },
+      { rootMargin: INFINITE_SCROLL_ROOT_MARGIN },
+    );
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, [hasMore, isFetchingNextPage, fetchNextPage]);
 
   return (
     <div className="flex min-h-dvh flex-col overflow-auto bg-bg-base text-text-primary">
@@ -142,13 +168,13 @@ export function BrowseCardsScreen() {
         {hasMore && (
           <div className="mt-7 flex justify-center">
             <Button
+              ref={loadMoreRef}
               variant="secondary"
-              onClick={() => void cardsQuery.fetchNextPage()}
-              disabled={cardsQuery.isFetchingNextPage}
+              onClick={() => void fetchNextPage()}
+              disabled={isFetchingNextPage}
+              aria-busy={isFetchingNextPage}
             >
-              {cardsQuery.isFetchingNextPage
-                ? t('browse.loading_more')
-                : t('browse.load_more_button')}
+              {isFetchingNextPage ? t('browse.loading_more') : t('browse.load_more_button')}
             </Button>
           </div>
         )}

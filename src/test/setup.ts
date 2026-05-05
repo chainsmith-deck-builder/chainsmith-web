@@ -8,6 +8,24 @@ import { server } from './msw/server';
 // translation, not the key.
 import '../i18n';
 
+// jsdom doesn't ship IntersectionObserver. Components that use it (infinite
+// scroll, lazy-load) would otherwise throw at mount. The stub is inert —
+// tests exercise pagination through the keyboard-fallback button rather
+// than by simulating viewport intersection.
+class IntersectionObserverStub {
+  observe(): void {}
+  unobserve(): void {}
+  disconnect(): void {}
+  takeRecords(): IntersectionObserverEntry[] {
+    return [];
+  }
+  readonly root: Element | null = null;
+  readonly rootMargin: string = '';
+  readonly thresholds: readonly number[] = [];
+}
+globalThis.IntersectionObserver =
+  IntersectionObserverStub as unknown as typeof IntersectionObserver;
+
 beforeAll(() => server.listen({ onUnhandledRequest: 'error' }));
 afterEach(() => {
   cleanup();

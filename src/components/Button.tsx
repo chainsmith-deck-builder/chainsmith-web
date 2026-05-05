@@ -1,4 +1,4 @@
-import type { ButtonHTMLAttributes, ReactNode } from 'react';
+import type { ButtonHTMLAttributes, ReactNode, Ref } from 'react';
 
 type Variant = 'primary' | 'secondary' | 'ghost' | 'dangerOutline';
 type Size = 'md' | 'lg';
@@ -7,11 +7,13 @@ type Props = ButtonHTMLAttributes<HTMLButtonElement> & {
   variant?: Variant;
   size?: Size;
   children: ReactNode;
+  ref?: Ref<HTMLButtonElement>;
 };
 
 // Button with three tones plus a danger outline. Sized 32/40 (md/lg) to match
 // the design's primary affordance scale.
 export function Button({
+  ref,
   variant = 'secondary',
   size = 'md',
   className = '',
@@ -24,7 +26,7 @@ export function Button({
   const sized = SIZE_MAP[size];
   const tone = TONE_MAP[variant];
   return (
-    <button type={type} className={`${base} ${sized} ${tone} ${className}`} {...rest}>
+    <button ref={ref} type={type} className={`${base} ${sized} ${tone} ${className}`} {...rest}>
       {children}
     </button>
   );
