@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 
+import { CardText } from '../../components/CardText';
 import { Icon } from '../../components/Icon';
 import { UI_FORMATS, formatI18nKey, legalityFor } from '../../api/format';
 import type { Card, FormatStatus, Printing } from '../../api/types';
@@ -130,7 +131,9 @@ function CardDetailBody({
 
       <div className="rounded-md border border-border-subtle bg-bg-raised p-3 text-[13px] leading-relaxed text-text-primary">
         {card.functionalText && card.functionalText.trim().length > 0 ? (
-          <p className="m-0 whitespace-pre-wrap">{card.functionalText}</p>
+          <p className="m-0 whitespace-pre-wrap">
+            <CardText text={card.functionalText} />
+          </p>
         ) : (
           <p className="m-0 italic text-text-muted">{t('browse.detail.rules_empty')}</p>
         )}
