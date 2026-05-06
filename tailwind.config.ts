@@ -17,6 +17,8 @@ export default {
         'border-subtle': 'var(--border-subtle)',
         // Brand
         'accent-brand': 'var(--accent-brand)',
+        // Avatar fallback (semantic — used when no avatar image is set)
+        'avatar-fallback': 'var(--avatar-fallback-bg)',
         // Semantic state
         'state-success': 'var(--state-success)',
         'state-warning': 'var(--state-warning)',
@@ -30,6 +32,23 @@ export default {
       fontFamily: {
         sans: ['Inter', 'system-ui', '-apple-system', 'Segoe UI', 'Roboto', 'sans-serif'],
         mono: ['"Geist Mono"', 'ui-monospace', 'SFMono-Regular', 'Menlo', 'monospace'],
+      },
+      fontSize: {
+        '2xs': 'var(--text-2xs)',
+        tiny: 'var(--text-tiny)',
+        display: 'var(--text-display)',
+      },
+      letterSpacing: {
+        display: 'var(--tracking-display)',
+        heading: 'var(--tracking-heading)',
+        label: 'var(--tracking-label)',
+        allcaps: 'var(--tracking-allcaps)',
+        spread: 'var(--tracking-spread)',
+      },
+      boxShadow: {
+        dropdown: 'var(--shadow-dropdown)',
+        modal: 'var(--shadow-modal)',
+        drawer: 'var(--shadow-drawer)',
       },
       borderRadius: {
         md: 'var(--radius-md)',
