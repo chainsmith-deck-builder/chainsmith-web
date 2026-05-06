@@ -5,7 +5,16 @@ import reactHooks from 'eslint-plugin-react-hooks';
 import reactRefresh from 'eslint-plugin-react-refresh';
 import jsxA11y from 'eslint-plugin-jsx-a11y';
 import i18next from 'eslint-plugin-i18next';
+import tailwindcss from 'eslint-plugin-tailwindcss';
 import globals from 'globals';
+import noPhysicalTailwindDirection from './eslint-rules/no-physical-tailwind-direction.js';
+
+// Local plugin wrapper for project-specific rules. See eslint-rules/.
+const chainsmith = {
+  rules: {
+    'no-physical-tailwind-direction': noPhysicalTailwindDirection,
+  },
+};
 
 export default tseslint.config(
   {
@@ -38,9 +47,15 @@ export default tseslint.config(
       'react-refresh': reactRefresh,
       'jsx-a11y': jsxA11y,
       i18next,
+      tailwindcss,
+      chainsmith,
     },
     settings: {
       react: { version: 'detect' },
+      tailwindcss: {
+        config: 'tailwind.config.ts',
+        callees: ['cn', 'clsx', 'classnames'],
+      },
     },
     rules: {
       ...reactHooks.configs.recommended.rules,
@@ -55,6 +70,18 @@ export default tseslint.config(
       '@typescript-eslint/no-explicit-any': 'error',
       '@typescript-eslint/no-non-null-assertion': 'error',
       '@typescript-eslint/consistent-type-imports': ['error', { prefer: 'type-imports' }],
+      // CSS hard requirement per .claude/rules/css.md — every visual decision
+      // goes through a Tailwind utility backed by a token. The escape hatch
+      // (runtime-dynamic numeric values) requires `// eslint-disable-next-line
+      // react/forbid-dom-props -- <reason>` with a justification.
+      'react/forbid-dom-props': ['error', { forbid: ['style'] }],
+      'tailwindcss/no-arbitrary-value': 'error',
+      'tailwindcss/no-custom-classname': 'error',
+      'tailwindcss/no-contradicting-classname': 'error',
+      // Class ordering is handled by prettier-plugin-tailwindcss; we don't
+      // duplicate it here.
+      // Local rule — RTL readiness (logical Tailwind utilities only).
+      'chainsmith/no-physical-tailwind-direction': 'error',
       // i18n hard requirement per .claude/rules/i18n.md
       'i18next/no-literal-string': [
         'error',
