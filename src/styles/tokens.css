@@ -26,6 +26,9 @@
   --text-secondary: #b5b0bf;
   --text-muted: #797388;
   --text-faint: #4a4555;
+  /* Text overlaid on card art / portrait / equipment imagery — warm off-white
+     that complements the FaB art palette. Not a UI-surface text color. */
+  --text-on-art: #f2eee6;
 
   /* Borders */
   --border-subtle: #2a2632;
@@ -89,6 +92,12 @@
   --shadow-modal: 0 24px 60px rgba(0, 0, 0, 0.5);
   --shadow-drawer: -12px 0 40px rgba(0, 0, 0, 0.4);
 
+  /* Layout widths — fixed component widths that don't fit the spacing scale. */
+  --layout-sidebar: 260px;
+  --layout-sidebar-wide: 360px;
+  --layout-modal: 420px;
+  --layout-drawer: 440px;
+
   color-scheme: dark;
 }
 
@@ -103,6 +112,7 @@
   --text-secondary: #4a4555;
   --text-muted: #797388;
   --text-faint: #a39cae;
+  /* --text-on-art intentionally not overridden — card imagery is constant. */
 
   --border-subtle: #e0dad0;
   --border-default: #cfc8bc;

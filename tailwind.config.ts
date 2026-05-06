@@ -17,6 +17,8 @@ export default {
         'text-secondary': 'var(--text-secondary)',
         'text-muted': 'var(--text-muted)',
         'text-faint': 'var(--text-faint)',
+        // Text on card art / portraits / equipment imagery (theme-invariant).
+        'text-on-art': 'var(--text-on-art)',
         // Borders
         'border-subtle': 'var(--border-subtle)',
         'border-default': 'var(--border-default)',
@@ -66,6 +68,12 @@ export default {
         dropdown: 'var(--shadow-dropdown)',
         modal: 'var(--shadow-modal)',
         drawer: 'var(--shadow-drawer)',
+      },
+      width: {
+        sidebar: 'var(--layout-sidebar)',
+        'sidebar-wide': 'var(--layout-sidebar-wide)',
+        modal: 'var(--layout-modal)',
+        drawer: 'var(--layout-drawer)',
       },
       borderRadius: {
         sm: 'var(--radius-sm)',
