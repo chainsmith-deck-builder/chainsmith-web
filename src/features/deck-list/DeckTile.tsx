@@ -28,40 +28,29 @@ export function DeckTile({ deck }: Props) {
         setHover(false);
         setMenuOpen(false);
       }}
-      className="group relative cursor-pointer overflow-hidden rounded-xl border bg-bg-raised transition-colors duration-fast hover:border-border-default hover:bg-bg-overlay"
-      style={{ borderColor: hover ? 'var(--border-default)' : 'var(--border-subtle)' }}
+      className={`group relative cursor-pointer overflow-hidden rounded-xl border bg-bg-raised transition-colors duration-fast hover:border-border-default hover:bg-bg-overlay ${hover ? 'border-border-default' : 'border-border-subtle'}`}
     >
       {/* Hero portrait area — locked to 5:7 to match card art ratio */}
       <div
         className="relative flex aspect-card items-center justify-center"
+        // eslint-disable-next-line react/forbid-dom-props -- per-hero gradient hue, no token equivalent
         style={{
           background: `radial-gradient(70% 70% at 50% 30%, oklch(0.45 0.13 ${hero.hue}) 0%, oklch(0.16 0.07 ${hero.hue}) 80%)`,
         }}
       >
         <div
           aria-hidden="true"
-          className="font-sans font-bold"
-          style={{
-            fontSize: 96,
-            color: 'rgba(255,255,255,0.85)',
-            letterSpacing: '-0.04em',
-            textShadow: '0 2px 12px rgba(0,0,0,0.4)',
-          }}
+          className="font-sans text-8xl font-bold tracking-display text-white/85"
+          // eslint-disable-next-line react/forbid-dom-props -- text-shadow has no Tailwind utility
+          style={{ textShadow: '0 2px 12px rgba(0,0,0,0.4)' }}
         >
           {hero.initial}
         </div>
-        <span
-          className="absolute bottom-3 left-3.5 font-medium uppercase"
-          style={{
-            color: 'rgba(255,255,255,0.78)',
-            fontSize: 9.5,
-            letterSpacing: '0.1em',
-          }}
-        >
+        <span className="absolute bottom-3 start-3.5 text-2xs font-medium uppercase tracking-widest text-white/80">
           {hero.cls}
         </span>
         {/* Tile menu trigger */}
-        <div className="absolute right-2 top-2">
+        <div className="absolute end-2 top-2">
           {hover && (
             <button
               type="button"
@@ -81,19 +70,13 @@ export function DeckTile({ deck }: Props) {
       <div className="p-3.5">
         <div className="mb-1 flex items-center gap-1.5">
           <VisibilityIcon visibility={deck.visibility} />
-          <span
-            className="text-[14px] font-semibold text-text-primary"
-            style={{ letterSpacing: '-0.005em' }}
-          >
+          <span className="text-sm font-semibold tracking-heading text-text-primary">
             {deck.name}
           </span>
         </div>
-        <div className="mb-2.5 text-[11.5px] text-text-muted">{hero.name}</div>
-        <div className="flex flex-wrap items-center gap-2 text-[11px]">
-          <span
-            className="font-medium uppercase text-text-muted"
-            style={{ fontSize: 9.5, letterSpacing: '0.1em' }}
-          >
+        <div className="mb-2.5 text-tiny text-text-muted">{hero.name}</div>
+        <div className="flex flex-wrap items-center gap-2 text-tiny">
+          <span className="text-2xs font-medium uppercase tracking-widest text-text-muted">
             {deck.format.split(' ')[0]}
           </span>
           <span className="font-mono text-text-secondary">{deck.count}</span>

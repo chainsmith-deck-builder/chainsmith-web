@@ -30,24 +30,24 @@ export function HeroTile({ hero, format, isPicked, onPick }: Props) {
   const overlayLabel = overlayLabelFor(status, format, tCommon);
   const tileLabel = tileLabelFor(status, t);
 
+  const pickedTone = isPicked
+    ? 'border-accent-brand ring-3 ring-accent-brand-soft'
+    : 'border-border-subtle';
+  const eligibilityTone = isEligible ? '' : 'opacity-40 saturate-50';
   return (
     <button
       type="button"
       onClick={() => isEligible && onPick(hero.id)}
       disabled={!isEligible}
       aria-disabled={!isEligible}
-      title={!isEligible ? overlayLabel ?? undefined : undefined}
+      aria-pressed={isEligible ? isPicked : undefined}
+      title={!isEligible ? (overlayLabel ?? undefined) : undefined}
       aria-label={hero.name}
-      className="overflow-hidden rounded-xl border bg-bg-raised text-start transition-all duration-fast disabled:cursor-not-allowed"
-      style={{
-        borderColor: isPicked ? 'var(--accent-brand)' : 'var(--border-subtle)',
-        boxShadow: isPicked ? '0 0 0 3px var(--accent-brand-soft)' : 'none',
-        opacity: isEligible ? 1 : 0.42,
-        filter: isEligible ? 'none' : 'saturate(0.4)',
-      }}
+      className={`overflow-hidden rounded-xl border bg-bg-raised text-start transition-all duration-fast disabled:cursor-not-allowed ${pickedTone} ${eligibilityTone}`}
     >
       <div
         className="relative flex aspect-card items-center justify-center"
+        // eslint-disable-next-line react/forbid-dom-props -- per-hero gradient hue, no token equivalent
         style={{
           background: `radial-gradient(80% 80% at 50% 25%, oklch(0.5 0.15 ${hue}) 0%, oklch(0.18 0.08 ${hue}) 80%)`,
         }}
@@ -67,42 +67,26 @@ export function HeroTile({ hero, format, isPicked, onPick }: Props) {
         ) : (
           <span
             aria-hidden="true"
-            className="font-bold"
-            style={{
-              fontSize: 96,
-              color: 'rgba(255,255,255,0.85)',
-              letterSpacing: '-0.04em',
-            }}
+            className="text-8xl font-bold tracking-display text-white/85"
           >
             {initial}
           </span>
         )}
         {overlayLabel !== null && (
           <span
-            className="absolute left-2.5 top-2.5 rounded-sm px-2 py-0.5 font-semibold uppercase backdrop-blur"
-            style={{
-              fontSize: 11,
-              letterSpacing: '0.02em',
-              background: status === 'retired' ? 'rgba(199, 138, 41, 0.7)' : 'rgba(0,0,0,0.6)',
-              color: 'rgba(255,255,255,0.92)',
-            }}
+            className={`absolute start-2.5 top-2.5 rounded-sm px-2 py-0.5 text-tiny font-semibold uppercase tracking-wide text-white/90 backdrop-blur ${status === 'retired' ? 'bg-state-warning/70' : 'bg-black/60'}`}
           >
             {overlayLabel}
           </span>
         )}
       </div>
       <div className="p-4">
-        <div className="text-[15px] font-semibold" style={{ letterSpacing: '-0.005em' }}>
-          {hero.name}
-        </div>
-        <div className="mt-1 flex flex-wrap items-center gap-1.5 text-[12.5px] text-text-muted">
+        <div className="text-base font-semibold tracking-heading">{hero.name}</div>
+        <div className="mt-1 flex flex-wrap items-center gap-1.5 text-xs text-text-muted">
           <span>{className}</span>
           <span>·</span>
           <span className="font-mono">{t('hero_select.tile.life_amount', { n: hero.life })}</span>
-          <span
-            className="ms-auto rounded-sm px-2 py-0.5 font-medium"
-            style={tileLabelStyle(status)}
-          >
+          <span className={`ms-auto rounded-sm px-2 py-0.5 font-medium ${tileLabelClass(status)}`}>
             {tileLabel}
           </span>
         </div>
@@ -135,24 +119,8 @@ function tileLabelFor(
   }
 }
 
-function tileLabelStyle(status: PresentationStatus): React.CSSProperties {
-  if (status === 'legal') {
-    return {
-      fontSize: 11,
-      background: 'var(--state-success-soft)',
-      color: 'var(--state-success)',
-    };
-  }
-  if (status === 'retired') {
-    return {
-      fontSize: 11,
-      background: 'var(--state-warning-soft)',
-      color: 'var(--state-warning)',
-    };
-  }
-  return {
-    fontSize: 11,
-    border: '1px solid var(--border-subtle)',
-    color: 'var(--text-faint)',
-  };
+function tileLabelClass(status: PresentationStatus): string {
+  if (status === 'legal') return 'text-tiny bg-state-success-soft text-state-success';
+  if (status === 'retired') return 'text-tiny bg-state-warning-soft text-state-warning';
+  return 'text-tiny border border-border-subtle text-text-faint';
 }

@@ -13,26 +13,22 @@ export function TileMenu({ onClose }: Props) {
     { key: 'delete', danger: true },
   ];
   return (
-    <div
-      className="absolute right-0 top-7 z-30 min-w-[150px] rounded-md border border-border-default bg-bg-overlay p-1"
-      style={{ boxShadow: '0 10px 30px rgba(0,0,0,0.45)' }}
-    >
-      {items.map((it, i) => (
-        <button
-          key={it.key}
-          type="button"
-          onClick={onClose}
-          className="block w-full rounded-sm px-2.5 py-1.5 text-left text-[12.5px] hover:bg-bg-elevated"
-          style={{
-            color: it.danger ? 'var(--state-danger)' : 'var(--text-primary)',
-            borderTop: i === items.length - 1 ? '1px solid var(--border-subtle)' : 'none',
-            marginTop: i === items.length - 1 ? 4 : 0,
-            paddingTop: i === items.length - 1 ? 9 : 7,
-          }}
-        >
-          {t(`list.tile.${it.key}`)}
-        </button>
-      ))}
+    <div className="absolute end-0 top-7 z-30 min-w-40 rounded-md border border-border-default bg-bg-overlay p-1 shadow-dropdown">
+      {items.map((it, i) => {
+        const isLast = i === items.length - 1;
+        const tone = it.danger ? 'text-state-danger' : 'text-text-primary';
+        const separator = isLast ? 'mt-1 border-t border-border-subtle pt-2' : 'pt-1.5';
+        return (
+          <button
+            key={it.key}
+            type="button"
+            onClick={onClose}
+            className={`block w-full rounded-sm px-2.5 pb-1.5 text-start text-xs hover:bg-bg-elevated ${tone} ${separator}`}
+          >
+            {t(`list.tile.${it.key}`)}
+          </button>
+        );
+      })}
     </div>
   );
 }

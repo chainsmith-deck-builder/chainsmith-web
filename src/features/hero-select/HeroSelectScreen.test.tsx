@@ -124,7 +124,12 @@ describe('HeroSelectScreen', () => {
     );
   });
 
-  it('selects a hero on click and reflects it via the pressed border', async () => {
+  it('selects a hero on click and announces it via aria-pressed', async () => {
+    // The original assertion read tile.style.borderColor for the picked state.
+    // After moving the conditional border from inline style to a Tailwind
+    // utility class, that style read is empty. The picked state is now
+    // exposed to assistive tech via aria-pressed (eligible heroes only),
+    // which is what we assert against.
     server.use(
       http.get(apiUrl('/heroes'), () =>
         HttpResponse.json({ items: [guardianAllFormats] }),
@@ -133,9 +138,9 @@ describe('HeroSelectScreen', () => {
     renderScreen();
 
     const tile = await screen.findByRole('button', { name: 'Bravo, Star of the Show' });
-    expect(tile.style.borderColor).toBe('var(--border-subtle)');
+    expect(tile).toHaveAttribute('aria-pressed', 'false');
     await userEvent.click(tile);
-    expect(tile.style.borderColor).toBe('var(--accent-brand)');
+    expect(tile).toHaveAttribute('aria-pressed', 'true');
   });
 
   it('groups Living-Legend-retired heroes under their own heading', async () => {
@@ -158,6 +163,11 @@ describe('HeroSelectScreen', () => {
   });
 
   it('does not select an ineligible hero when clicked', async () => {
+    // Original asserted on tile.style.borderColor; that's no longer
+    // populated since the border color is a utility class. Ineligible
+    // tiles are also disabled and intentionally have no aria-pressed
+    // (the picked state is meaningless for a non-clickable tile), so
+    // we assert that here.
     server.use(
       http.get(apiUrl('/heroes'), () =>
         HttpResponse.json({ items: [wizardOnlyCC, guardianAllFormats] }),
@@ -168,8 +178,9 @@ describe('HeroSelectScreen', () => {
     await userEvent.click(await screen.findByRole('button', { name: 'Blitz' }));
 
     const lockedTile = screen.getByRole('button', { name: 'Iyslander, Stormbind' });
+    expect(lockedTile).toBeDisabled();
     await userEvent.click(lockedTile);
-    expect(lockedTile.style.borderColor).toBe('var(--border-subtle)');
+    expect(lockedTile).not.toHaveAttribute('aria-pressed');
   });
 });
 

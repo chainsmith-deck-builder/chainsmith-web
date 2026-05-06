@@ -26,14 +26,10 @@ export function SharedCardPreview({ card, onClose }: Props) {
         role="dialog"
         aria-modal="true"
         aria-labelledby="shared-preview-title"
-        className="relative flex h-full w-[360px] max-w-full flex-col gap-3.5 border-s border-border-default bg-bg-base p-5"
-        style={{ boxShadow: '-20px 0 40px rgba(0,0,0,0.4)' }}
+        className="relative flex h-full w-sidebar-wide max-w-full flex-col gap-3.5 border-s border-border-default bg-bg-base p-5 shadow-drawer"
       >
         <div className="flex items-center gap-2">
-          <span
-            className="font-medium uppercase text-text-muted"
-            style={{ fontSize: 11, letterSpacing: '0.5em' }}
-          >
+          <span className="text-tiny font-medium uppercase tracking-spread text-text-muted">
             {t('shared.preview_label')}
           </span>
           <button
@@ -51,12 +47,11 @@ export function SharedCardPreview({ card, onClose }: Props) {
         <div>
           <div
             id="shared-preview-title"
-            className="text-[16px] font-semibold"
-            style={{ letterSpacing: '-0.01em' }}
+            className="text-base font-semibold tracking-heading"
           >
             {card.name}
           </div>
-          <div className="mt-1 flex items-center gap-2 text-[12px] text-text-muted">
+          <div className="mt-1 flex items-center gap-2 text-xs text-text-muted">
             <PitchDot pitch={card.pitch} size={6} />
             <span>{tCommon('pitch.label', { n: card.pitch })}</span>
             <span>·</span>
@@ -69,9 +64,7 @@ export function SharedCardPreview({ card, onClose }: Props) {
             )}
           </div>
         </div>
-        <div
-          className="mt-auto border-t border-border-subtle py-3 text-[11px] text-text-faint"
-        >
+        <div className="mt-auto border-t border-border-subtle py-3 text-tiny text-text-faint">
           {t('shared.sign_in_callout_body')}
         </div>
       </div>

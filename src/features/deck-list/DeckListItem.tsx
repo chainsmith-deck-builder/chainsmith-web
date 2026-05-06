@@ -24,19 +24,14 @@ export function DeckListItem({ deck, divider }: Props) {
         setHover(false);
         setMenuOpen(false);
       }}
-      className="relative flex cursor-pointer items-center gap-3.5 px-3.5 py-2.5 transition-colors duration-fast"
-      style={{
-        background: hover ? 'var(--bg-overlay)' : 'transparent',
-        borderTop: divider ? '1px solid var(--border-subtle)' : 'none',
-      }}
+      className={`relative flex cursor-pointer items-center gap-3.5 px-3.5 py-2.5 transition-colors duration-fast ${hover ? 'bg-bg-overlay' : 'bg-transparent'} ${divider ? 'border-t border-border-subtle' : ''}`}
     >
       <div
         aria-hidden="true"
-        className="flex h-14 w-14 flex-shrink-0 items-center justify-center rounded-full font-semibold text-[#F2EEE6]"
+        className="flex h-14 w-14 flex-shrink-0 items-center justify-center rounded-full text-xl font-semibold tracking-tight text-text-on-art"
+        // eslint-disable-next-line react/forbid-dom-props -- per-hero gradient hue, no token equivalent
         style={{
           background: `radial-gradient(60% 60% at 30% 25%, oklch(0.55 0.14 ${hero.hue}) 0%, oklch(0.22 0.08 ${hero.hue}) 80%)`,
-          fontSize: 22,
-          letterSpacing: '-0.02em',
         }}
       >
         {hero.initial}
@@ -44,33 +39,21 @@ export function DeckListItem({ deck, divider }: Props) {
       <div className="min-w-0 flex-1">
         <div className="mb-0.5 flex items-center gap-1.5">
           <VisibilityIcon visibility={deck.visibility} />
-          <span className="text-[14px] font-semibold" style={{ letterSpacing: '-0.005em' }}>
-            {deck.name}
-          </span>
+          <span className="text-sm font-semibold tracking-heading">{deck.name}</span>
         </div>
-        <div className="text-[11.5px] text-text-muted">
+        <div className="text-tiny text-text-muted">
           {hero.name} · {hero.cls}
         </div>
       </div>
-      <span
-        className="font-medium uppercase text-text-muted"
-        style={{ width: 110, fontSize: 9.5, letterSpacing: '0.1em' }}
-      >
+      <span className="w-28 text-2xs font-medium uppercase tracking-widest text-text-muted">
         {deck.format}
       </span>
-      <span
-        className="text-end font-mono text-[12px] text-text-secondary"
-        style={{ width: 50 }}
-      >
-        {deck.count}
-      </span>
-      <span style={{ width: 100, fontSize: 11 }}>
+      <span className="w-12 text-end font-mono text-xs text-text-secondary">{deck.count}</span>
+      <span className="w-24 text-tiny">
         <ValidityBadge legal={deck.valid} compact />
       </span>
-      <span className="text-end text-text-faint" style={{ width: 90, fontSize: 11 }}>
-        {deck.editedRelative}
-      </span>
-      <div className="relative" style={{ width: 28 }}>
+      <span className="w-24 text-end text-tiny text-text-faint">{deck.editedRelative}</span>
+      <div className="relative w-7">
         {hover && (
           <button
             type="button"

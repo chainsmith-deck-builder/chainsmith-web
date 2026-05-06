@@ -40,16 +40,13 @@ export function SharedDeckScreen() {
       <main
         id="main-content"
         aria-label={t('editor.title_default')}
-        className="mx-auto w-full flex-1"
-        style={{ maxWidth: 1000, padding: '28px 40px' }}
+        className="mx-auto w-full max-w-5xl flex-1 px-10 py-7"
       >
         {/* Sign-in callout */}
         <div className="mb-6 flex items-center gap-3 rounded-lg border border-accent-brand-dim bg-accent-brand-soft px-4 py-3">
           <div className="flex-1">
-            <div className="text-[13px] font-semibold">
-              {t('shared.sign_in_callout_title')}
-            </div>
-            <div className="mt-0.5 text-[11.5px] text-text-muted">
+            <div className="text-sm font-semibold">{t('shared.sign_in_callout_title')}</div>
+            <div className="mt-0.5 text-tiny text-text-muted">
               {t('shared.sign_in_callout_body')}
             </div>
           </div>
@@ -60,18 +57,12 @@ export function SharedDeckScreen() {
         <div className="mb-7 flex items-start gap-5">
           <HeroAvatar heroId="iyslander" size={64} />
           <div className="flex-1">
-            <h1
-              className="m-0 font-semibold"
-              style={{ fontSize: 24, letterSpacing: '-0.015em' }}
-            >
+            <h1 className="m-0 text-2xl font-semibold tracking-heading">
               {t('editor.title_default')}
             </h1>
-            <div className="mt-1 text-[13px] text-text-secondary">{heroLine}</div>
-            <div className="mt-1.5 flex items-center gap-2.5 text-[11.5px] text-text-muted">
-              <span
-                className="font-medium uppercase"
-                style={{ fontSize: 9.5, letterSpacing: '0.1em' }}
-              >
+            <div className="mt-1 text-sm text-text-secondary">{heroLine}</div>
+            <div className="mt-1.5 flex items-center gap-2.5 text-tiny text-text-muted">
+              <span className="text-2xs font-medium uppercase tracking-widest">
                 {tCommon('format.classic_constructed')}
               </span>
               <span className="font-mono">60/60</span>
@@ -83,7 +74,11 @@ export function SharedDeckScreen() {
           </Button>
         </div>
 
-        <div className="grid gap-7" style={{ gridTemplateColumns: '1fr 320px' }}>
+        <div
+          className="grid gap-7"
+          // eslint-disable-next-line react/forbid-dom-props -- two-column layout with fixed sidebar width; no Tailwind utility
+          style={{ gridTemplateColumns: '1fr 320px' }}
+        >
           <div>
             {/* Equipment */}
             <SectionHead label={t('shared.section_equipment')} count="5/6" />
@@ -91,6 +86,9 @@ export function SharedDeckScreen() {
               {SLOT_KEYS.map((slot) => {
                 const cardId = DEMO_EQUIPMENT[slot];
                 const card = cardId ? findCard(cardId) : null;
+                const slotTone = card
+                  ? 'cursor-pointer'
+                  : 'cursor-default border border-dashed border-border-default';
                 return (
                   <button
                     key={slot}
@@ -98,12 +96,7 @@ export function SharedDeckScreen() {
                     onClick={() => card && setPreviewCard(card)}
                     disabled={!card}
                     aria-label={card ? card.name : `Empty ${slot}`}
-                    className="aspect-card overflow-hidden rounded-md p-0"
-                    style={{
-                      background: 'transparent',
-                      border: card ? 'none' : '1px dashed var(--border-default)',
-                      cursor: card ? 'pointer' : 'default',
-                    }}
+                    className={`aspect-card overflow-hidden rounded-md bg-transparent p-0 ${slotTone}`}
                   >
                     {card ? <CardArt card={card} size="tile" /> : null}
                   </button>
@@ -120,16 +113,10 @@ export function SharedDeckScreen() {
               const total = rows.reduce((s, r) => s + r.qty, 0);
               return (
                 <div key={p} className="mb-3.5">
-                  <div
-                    className="mb-1 flex items-center gap-2 py-0.5 font-semibold uppercase text-text-muted"
-                    style={{ fontSize: 10.5, letterSpacing: '0.12em' }}
-                  >
+                  <div className="mb-1 flex items-center gap-2 py-0.5 text-2xs font-semibold uppercase tracking-label text-text-muted">
                     <PitchDot pitch={p} size={6} />
                     {tCommon('pitch.label', { n: p })}
-                    <span
-                      className="ms-auto font-mono text-text-faint"
-                      style={{ letterSpacing: 0 }}
-                    >
+                    <span className="ms-auto font-mono tracking-normal text-text-faint">
                       {total}
                     </span>
                   </div>
@@ -145,8 +132,8 @@ export function SharedDeckScreen() {
                         className="flex w-full cursor-pointer items-center gap-2 border-b border-border-subtle bg-transparent px-2 py-1.5 text-start transition-colors duration-fast hover:bg-bg-overlay"
                       >
                         <PitchDot pitch={c.pitch} size={6} />
-                        <span className="text-[12.5px] font-medium">{c.name}</span>
-                        <span className="ms-auto font-mono text-[12px] text-text-muted">
+                        <span className="text-xs font-medium">{c.name}</span>
+                        <span className="ms-auto font-mono text-xs text-text-muted">
                           ×{d.qty}
                         </span>
                       </button>
@@ -162,13 +149,11 @@ export function SharedDeckScreen() {
               type="button"
               onClick={() => setAnalyticsOpen(!analyticsOpen)}
               aria-expanded={analyticsOpen}
-              className="mb-2.5 flex w-full cursor-pointer items-center gap-2 bg-transparent py-1.5 text-[11px] font-medium uppercase text-text-muted"
-              style={{ letterSpacing: '0.5em' }}
+              className="mb-2.5 flex w-full cursor-pointer items-center gap-2 bg-transparent py-1.5 text-tiny font-medium uppercase tracking-spread text-text-muted"
             >
               <span
                 aria-hidden="true"
-                className="inline-flex transition-transform duration-fast"
-                style={{ transform: analyticsOpen ? 'rotate(90deg)' : 'rotate(0)' }}
+                className={`inline-flex transition-transform duration-fast ${analyticsOpen ? 'rotate-90' : 'rotate-0'}`}
               >
                 <Icon.chevron />
               </span>
@@ -176,7 +161,7 @@ export function SharedDeckScreen() {
             </button>
             {analyticsOpen && (
               <div className="rounded-lg border border-border-subtle bg-bg-raised p-3.5">
-                <div className="mb-1.5 text-[11px] text-text-muted">
+                <div className="mb-1.5 text-tiny text-text-muted">
                   {t('editor.analytics.pitch_distribution')}
                 </div>
                 <PitchDistribution data={{ p1: 16, p2: 16, p3: 9 }} />
@@ -195,11 +180,10 @@ export function SharedDeckScreen() {
         </div>
 
         {/* Footer attribution */}
-        <footer className="mt-9 flex items-center gap-3.5 border-t border-border-subtle py-5 text-[11.5px] text-text-muted">
+        <footer className="mt-9 flex items-center gap-3.5 border-t border-border-subtle py-5 text-tiny text-text-muted">
           <div
             aria-hidden="true"
-            className="flex h-7 w-7 items-center justify-center rounded-full text-[11.5px] font-semibold text-white"
-            style={{ background: 'oklch(0.45 0.12 218)' }}
+            className="flex h-7 w-7 items-center justify-center rounded-full bg-avatar-fallback text-tiny font-semibold text-white"
           >
             F
           </div>
@@ -214,13 +198,13 @@ export function SharedDeckScreen() {
           <div className="ms-auto flex gap-2">
             <button
               type="button"
-              className="inline-flex h-7 items-center gap-1.5 rounded-md px-2.5 text-[11.5px] text-text-secondary transition-colors duration-fast hover:bg-bg-raised hover:text-text-primary"
+              className="inline-flex h-7 items-center gap-1.5 rounded-md px-2.5 text-tiny text-text-secondary transition-colors duration-fast hover:bg-bg-raised hover:text-text-primary"
             >
               <Icon.link /> {t('shared.copy_link')}
             </button>
             <button
               type="button"
-              className="inline-flex h-7 items-center gap-1.5 rounded-md px-2.5 text-[11.5px] text-text-secondary transition-colors duration-fast hover:bg-bg-raised hover:text-text-primary"
+              className="inline-flex h-7 items-center gap-1.5 rounded-md px-2.5 text-tiny text-text-secondary transition-colors duration-fast hover:bg-bg-raised hover:text-text-primary"
             >
               {t('shared.report')}
             </button>
@@ -237,15 +221,10 @@ export function SharedDeckScreen() {
 
 function SectionHead({ label, count }: { label: string; count?: string }) {
   return (
-    <div
-      className="mb-2.5 flex items-center gap-2 font-semibold uppercase text-text-muted"
-      style={{ fontSize: 10.5, letterSpacing: '0.12em' }}
-    >
+    <div className="mb-2.5 flex items-center gap-2 text-2xs font-semibold uppercase tracking-label text-text-muted">
       <span>{label}</span>
       {count && (
-        <span className="ms-auto font-mono text-text-faint" style={{ letterSpacing: 0 }}>
-          {count}
-        </span>
+        <span className="ms-auto font-mono tracking-normal text-text-faint">{count}</span>
       )}
     </div>
   );

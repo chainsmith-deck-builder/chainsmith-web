@@ -29,16 +29,11 @@ export function DeckListScreen({ empty = false, mobile = false }: Props) {
       <main
         id="main-content"
         aria-label={t('list.title')}
-        className="mx-auto w-full flex-1"
-        style={{ maxWidth: 1200, padding: mobile ? '20px 16px' : '32px 40px' }}
+        className={`mx-auto w-full max-w-6xl flex-1 ${mobile ? 'px-4 py-5' : 'px-10 py-8'}`}
       >
         <div className="mb-6 flex items-center">
           <h1
-            className="m-0 font-semibold"
-            style={{
-              fontSize: mobile ? 22 : 26,
-              letterSpacing: '-0.015em',
-            }}
+            className={`m-0 font-semibold tracking-heading ${mobile ? 'text-xl' : 'text-display'}`}
           >
             {t('list.title')}
           </h1>
@@ -59,12 +54,12 @@ export function DeckListScreen({ empty = false, mobile = false }: Props) {
                 {t('list.filters.sort', { value: t('list.filters.sort_last_edited') })}{' '}
                 <Icon.chevron />
               </Pill>
-              <label className="ms-1 inline-flex items-center gap-1.5 text-[12px] text-text-secondary">
+              <label className="ms-1 inline-flex items-center gap-1.5 text-xs text-text-secondary">
                 <input
                   type="checkbox"
                   checked={groupByFormat}
                   onChange={(e) => setGroupByFormat(e.target.checked)}
-                  style={{ accentColor: 'var(--accent-brand)' }}
+                  className="accent-accent-brand"
                 />
                 {t('list.filters.group_by_format')}
               </label>
@@ -89,6 +84,7 @@ export function DeckListScreen({ empty = false, mobile = false }: Props) {
             {view === 'grid' ? (
               <div
                 className="grid gap-4"
+                // eslint-disable-next-line react/forbid-dom-props -- mobile-vs-desktop responsive grid template; not on Tailwind utility scale
                 style={{
                   gridTemplateColumns: mobile
                     ? '1fr'
@@ -124,17 +120,14 @@ function ViewToggleButton({
   ariaLabel: string;
   children: React.ReactNode;
 }) {
+  const tone = active ? 'bg-bg-elevated text-text-primary' : 'bg-transparent text-text-muted';
   return (
     <button
       type="button"
       onClick={onClick}
       aria-label={ariaLabel}
       aria-pressed={active}
-      className="flex h-6 w-7 items-center justify-center rounded-sm transition-colors duration-fast"
-      style={{
-        background: active ? 'var(--bg-elevated)' : 'transparent',
-        color: active ? 'var(--text-primary)' : 'var(--text-muted)',
-      }}
+      className={`flex h-6 w-7 items-center justify-center rounded-sm transition-colors duration-fast ${tone}`}
     >
       {children}
     </button>

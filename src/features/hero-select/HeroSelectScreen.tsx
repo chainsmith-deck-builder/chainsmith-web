@@ -43,42 +43,40 @@ export function HeroSelectScreen() {
       <main
         id="main-content"
         aria-label={t('hero_select.title')}
-        className="mx-auto w-full flex-1"
-        style={{ maxWidth: 1200, padding: '32px 40px' }}
+        className="mx-auto w-full max-w-6xl flex-1 px-10 py-8"
       >
         <div className="mb-2">
           <Link
             to="/"
-            className="mb-2 inline-flex h-7 items-center gap-1.5 rounded-md px-2.5 text-[12.5px] text-text-secondary transition-colors duration-fast hover:bg-bg-raised hover:text-text-primary"
+            className="mb-2 inline-flex h-7 items-center gap-1.5 rounded-md px-2.5 text-xs text-text-secondary transition-colors duration-fast hover:bg-bg-raised hover:text-text-primary"
           >
             <Icon.arrowLeft /> {t('hero_select.back_to_decks')}
           </Link>
-          <h1
-            className="m-0 font-semibold"
-            style={{ fontSize: 26, letterSpacing: '-0.015em' }}
-          >
+          <h1 className="m-0 text-display font-semibold tracking-heading">
             {t('hero_select.title')}
           </h1>
-          <p className="mt-1 text-[13px] text-text-muted">{t('hero_select.subtitle')}</p>
+          <p className="mt-1 text-sm text-text-muted">{t('hero_select.subtitle')}</p>
         </div>
 
         {/* Format segmented control */}
         <div className="mb-4 mt-6 inline-flex w-fit gap-1.5 rounded-full border border-border-subtle bg-bg-raised p-1">
-          {UI_FORMATS.map((f) => (
-            <button
-              key={f}
-              type="button"
-              onClick={() => setFormat(f)}
-              aria-pressed={format === f}
-              className="rounded-full px-4 py-1.5 text-[12.5px] font-medium transition-colors duration-fast"
-              style={{
-                background: format === f ? 'var(--accent-brand)' : 'transparent',
-                color: format === f ? '#fff' : 'var(--text-secondary)',
-              }}
-            >
-              {tCommon(formatI18nKey(f))}
-            </button>
-          ))}
+          {UI_FORMATS.map((f) => {
+            const active = format === f;
+            const tone = active
+              ? 'bg-accent-brand text-white'
+              : 'bg-transparent text-text-secondary';
+            return (
+              <button
+                key={f}
+                type="button"
+                onClick={() => setFormat(f)}
+                aria-pressed={active}
+                className={`rounded-full px-4 py-1.5 text-xs font-medium transition-colors duration-fast ${tone}`}
+              >
+                {tCommon(formatI18nKey(f))}
+              </button>
+            );
+          })}
         </div>
 
         {/* Search + filter chips. The filters themselves are not yet wired
@@ -92,7 +90,7 @@ export function HeroSelectScreen() {
             <input
               placeholder={t('hero_select.search_placeholder')}
               aria-label={t('hero_select.search_placeholder')}
-              className="block h-9 w-full rounded-md border border-border-subtle bg-bg-input px-3 ps-8 text-[12.5px] text-text-primary outline-none"
+              className="block h-9 w-full rounded-md border border-border-subtle bg-bg-input px-3 ps-8 text-xs text-text-primary outline-none"
             />
           </div>
           <Pill>
@@ -106,7 +104,7 @@ export function HeroSelectScreen() {
         </div>
 
         {heroesQuery.isPending && (
-          <div role="status" className="py-8 text-[13px] text-text-muted">
+          <div role="status" className="py-8 text-sm text-text-muted">
             {t('hero_select.loading')}
           </div>
         )}
@@ -114,7 +112,7 @@ export function HeroSelectScreen() {
         {heroesQuery.isError && (
           <div
             role="alert"
-            className="rounded-xl border border-border-subtle bg-bg-raised p-6 text-[13px] text-text-secondary"
+            className="rounded-xl border border-border-subtle bg-bg-raised p-6 text-sm text-text-secondary"
           >
             <p className="m-0 font-semibold text-text-primary">
               {t('hero_select.error.title')}
@@ -122,7 +120,7 @@ export function HeroSelectScreen() {
             <button
               type="button"
               onClick={() => void heroesQuery.refetch()}
-              className="mt-3 inline-flex h-8 items-center rounded-md border border-border-subtle bg-bg-base px-3 text-[12.5px] font-medium hover:bg-bg-overlay"
+              className="mt-3 inline-flex h-8 items-center rounded-md border border-border-subtle bg-bg-base px-3 text-xs font-medium hover:bg-bg-overlay"
             >
               {t('hero_select.error.retry')}
             </button>
@@ -133,7 +131,7 @@ export function HeroSelectScreen() {
           eligible.length === 0 &&
           retired.length === 0 &&
           ineligible.length === 0 && (
-            <p className="py-8 text-[13px] text-text-muted">{t('hero_select.empty')}</p>
+            <p className="py-8 text-sm text-text-muted">{t('hero_select.empty')}</p>
           )}
 
         {heroesQuery.isSuccess && eligible.length > 0 && (
@@ -185,6 +183,7 @@ function HeroGrid({
   return (
     <div
       className="grid gap-4"
+      // eslint-disable-next-line react/forbid-dom-props -- responsive auto-fill grid template; no Tailwind utility
       style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))' }}
     >
       {heroes.map((hero) => (
@@ -215,15 +214,10 @@ function HeroSubsection({
 }) {
   return (
     <>
-      <div
-        className="my-6 flex items-center gap-2.5 font-medium uppercase text-text-muted"
-        style={{ fontSize: 11, letterSpacing: '0.5em' }}
-      >
+      <div className="my-6 flex items-center gap-2.5 text-tiny font-medium uppercase tracking-spread text-text-muted">
         <span>{heading}</span>
         <div className="h-px flex-1 bg-border-subtle" />
-        <span className="font-mono text-text-faint" style={{ letterSpacing: 0 }}>
-          {count}
-        </span>
+        <span className="font-mono tracking-normal text-text-faint">{count}</span>
       </div>
       <HeroGrid heroes={heroes} format={format} picked={undefined} onPick={onPick} />
     </>

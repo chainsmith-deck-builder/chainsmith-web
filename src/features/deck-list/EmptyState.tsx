@@ -17,16 +17,8 @@ export function EmptyState() {
           </div>
         ))}
       </div>
-      <h2
-        className="mb-2 text-[20px] font-semibold"
-        style={{ letterSpacing: '-0.01em' }}
-      >
-        {t('list.empty.title')}
-      </h2>
-      <p
-        className="mx-auto mb-5 max-w-sm text-[13px] text-text-muted"
-        style={{ lineHeight: 1.55 }}
-      >
+      <h2 className="mb-2 text-xl font-semibold tracking-heading">{t('list.empty.title')}</h2>
+      <p className="mx-auto mb-5 max-w-sm text-sm leading-relaxed text-text-muted">
         {t('list.empty.body')}
       </p>
       <Button variant="primary" size="lg">
