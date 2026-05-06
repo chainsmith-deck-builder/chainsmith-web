@@ -34,7 +34,9 @@ The token system codifies the design-system decisions on the Notion deck-builder
 - **Sans**: Inter, used for everything UI.
 - **Mono**: Geist Mono with `font-feature-settings: "tnum"` enabled for tabular figures — used for numeric stats, deck counts, and pitch totals so digits align across rows.
 - **No display fonts.** No fantasy typefaces. No script faces. The brand is restrained.
-- Type scale tokens: `--text-xs` through `--text-3xl`, mapped to Tailwind's `text-xs` through `text-3xl`. Don't reach for `text-[13px]`-style arbitrary sizes.
+- **Size scale**: Tailwind defaults (`text-xs` through `text-3xl`) plus three project additions for gaps the design needed: `text-2xs` (10px micro labels), `text-tiny` (11px small labels), `text-display` (26px page headings). Don't reach for `text-[13px]`-style arbitrary sizes — `eslint-plugin-tailwindcss` blocks them.
+- **Tracking scale**: Tailwind defaults (`tracking-tighter` through `tracking-widest`) plus five role-named project tokens: `tracking-display` (-0.04em wordmark), `tracking-heading` (-0.01em page/section heads), `tracking-label` (0.12em small-caps UI labels), `tracking-allcaps` (0.18em hero all-caps), `tracking-spread` (0.5em numeric display).
+- **Elevation**: `shadow-dropdown`, `shadow-modal`, `shadow-drawer` for the three sizes of overlay surface. Don't invent ad-hoc box-shadow values.
 
 ### Motion
 
@@ -50,16 +52,43 @@ The token system codifies the design-system decisions on the Notion deck-builder
 
 ## Logical properties
 
-- Use **logical** CSS properties (`margin-inline-start`, `padding-block-end`, `inset-inline-start`) rather than physical (`margin-left`, `padding-bottom`, `left`).
-- Tailwind's logical-property utilities (`ms-*`, `me-*`, `ps-*`, `pe-*`, `start-*`, `end-*`) are preferred over the physical `ml-*`, `mr-*`, `pl-*`, `pr-*`, `left-*`, `right-*`.
+- Use **logical** Tailwind utilities (`ms-*`, `me-*`, `ps-*`, `pe-*`, `start-*`, `end-*`, `border-s-*`, `border-e-*`, `rounded-s-*`, `rounded-e-*`) rather than physical (`ml-*`, `mr-*`, `pl-*`, `pr-*`, `left-*`, `right-*`, `border-l-*`, `border-r-*`, `rounded-l-*`, `rounded-r-*`).
+- Enforced by the local `chainsmith/no-physical-tailwind-direction` rule wired into `eslint.config.js`. Disable comments require a justification — typically only when an icon or visual is intentionally direction-locked (e.g. a glyph that must always sit on the literal left edge, regardless of locale).
 - This pays the styling debt for RTL up front, before we ship any RTL locales (see `i18n.md` on RTL readiness).
+
+## No inline `style` attribute
+
+Default-deny. Any `style={{ ... }}` on a DOM element is a lint error (`react/forbid-dom-props`). The pattern of "paste the design mock's pixel values into `style`" is exactly what we are guarding against.
+
+There is one escape hatch, and it requires a justifying comment on the line above:
+
+```tsx
+// eslint-disable-next-line react/forbid-dom-props -- runtime-computed bar height
+<div style={{ height: `${percent}%` }} />
+```
+
+The disable comment **must name why** a static utility class can't express this. The legitimate categories are narrow:
+
+1. **Runtime numeric values with no token equivalent.** A chart bar whose height is `${value}%`. A `<PitchDot>` whose `width: size` comes from a numeric prop. A computed `transform: rotate(${deg}deg)`.
+2. **Conditional CSS variables that lint can't see through.** Rare. Almost always rewritable as `clsx('bg-bg-overlay', focused && 'bg-bg-elevated')`. Reach for it only when the value space is genuinely runtime-dynamic.
+3. **CSS Grid template strings** that aren't on a Tailwind utility (`gridTemplateColumns: 'repeat(auto-fill, minmax(140px, 1fr))'`). Prefer the Tailwind grid utilities when they fit.
+
+Anything else — `fontSize: 11.5`, `letterSpacing: '0.1em'`, `padding: '32px 40px'`, raw `oklch(...)` colors, custom `boxShadow` strings — is a violation regardless of whether you remember to add the disable comment. Add a token (see Typography / Elevation / Color above) or a Tailwind utility instead.
+
+## Reach for tokens, not arbitrary values
+
+Tailwind's arbitrary-value escape hatch (`text-[13px]`, `bg-[#abc]`, `p-[17px]`, `shadow-[0_2px_8px_rgba(0,0,0,0.3)]`) is **also** a lint error (`tailwindcss/no-arbitrary-value`). If the value you want isn't on the scale, the answer is one of:
+
+1. Round to the nearest scale step. The design's micro-decisions (`fontSize: 9.5` vs `10` vs `10.5`) almost never survive contact with users; pick the nearest token.
+2. Add a token if the value is reused in three or more places and represents a real role (a new elevation, a new label-size for a new component class). PR that adds the token also adds it to `tokens.css` *and* `tailwind.config.ts` in the same commit.
+3. If neither fits — that's the rare "genuinely dynamic" case in the section above; use `style={...}` with a disable comment that says so.
 
 ## Class string discipline
 
-- Order classes consistently: layout → box model → typography → color → motion → state. Use `eslint-plugin-tailwindcss`'s `classnames-order` rule to enforce.
-- Variant-heavy class strings get extracted via `clsx` (or the project's existing `cn(...)` helper) into a `const` above the JSX. Don't ship 200-character single-line `className` props.
+- Class ordering is enforced by `prettier-plugin-tailwindcss` on save / format. Don't hand-order.
+- Variant-heavy class strings get extracted via `clsx` (or the project's `cn(...)` helper) into a `const` above the JSX. Don't ship 200-character single-line `className` props.
 - Avoid `className={'...' + cond && '...'}` string concatenation. Use `clsx`/`cn`.
-- No inline `style={{ ... }}` for anything that has a token equivalent. The only acceptable inline style is for genuinely dynamic values that aren't on the token scale (e.g. a chart bar's computed width percentage).
+- `tailwindcss/no-custom-classname` blocks unrecognized class names — if lint flags one, it's almost always a typo or a missing utility.
 
 ## Anti-patterns
 
@@ -67,5 +96,4 @@ The token system codifies the design-system decisions on the Notion deck-builder
 - No deep selectors (`.foo .bar > .baz`). Tailwind's flat utility model exists to avoid this.
 - No `@apply` outside `tokens.css`.
 - No hex colors in component files. Tokens or nothing.
-- No `px`-suffixed arbitrary values (`px-[17px]`). Use the scale.
 - No new fonts without a design review.

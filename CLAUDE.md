@@ -17,7 +17,7 @@ This repo contains the web client. No server code, no validation engine, no DB a
 - i18n: `react-i18next` with `i18next-icu` for ICU plurals and `i18next-resources-for-ts` for typed keys
 - Testing: Vitest + React Testing Library for unit and component, Playwright + `@axe-core/playwright` for end-to-end and accessibility
 - HTTP mocking in tests: MSW
-- Lint and format: ESLint with `eslint-plugin-jsx-a11y` and `eslint-plugin-i18next`, Prettier
+- Lint and format: ESLint with `eslint-plugin-jsx-a11y`, `eslint-plugin-i18next`, `eslint-plugin-tailwindcss`, plus a local rule banning physical-direction Tailwind utilities. Prettier with `prettier-plugin-tailwindcss` for class ordering.
 
 ## Project phase
 
@@ -33,6 +33,7 @@ If you are unsure which phase you are in, read this file. Do not assume.
 - **Strict testing discipline.** Negative cases and variants are required, not optional. No snapshot-as-coverage. If a test fails, investigate before rewriting it. See `.claude/rules/testing.md`.
 - **No hardcoded user-visible strings.** Every label, error, toast, `aria-label`, and non-card `alt` text goes through the i18n layer from day one. Enforced by `eslint-plugin-i18next` and an extraction-drift check in the pre-commit hook. See `.claude/rules/i18n.md`.
 - **Strict TypeScript.** No `any`, no non-null assertions outside generated code. Errors from the backend are narrowed against the typed `ErrorCode` union from `openapi.json`. See `.claude/rules/api-client.md`.
+- **No inline styles, no arbitrary Tailwind values.** Every visual decision goes through a Tailwind utility backed by a design token in `tokens.css`. `style={...}` and `text-[13px]`-style escape hatches are lint errors. The narrow exception (runtime-dynamic numeric values) requires a justifying disable comment. See `.claude/rules/css.md`.
 
 ## Rules files
 
