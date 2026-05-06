@@ -60,6 +60,7 @@
     "eslint-plugin-react": "7.37.5",
     "eslint-plugin-react-hooks": "7.1.1",
     "eslint-plugin-react-refresh": "0.5.2",
+    "eslint-plugin-tailwindcss": "^3.17.5",
     "globals": "17.6.0",
     "i18next-parser": "9.4.0",
     "jsdom": "29.1.1",
