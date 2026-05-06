@@ -15,10 +15,7 @@ type Props = {
 export function LeftSidebar({ previewCard, validation, slots }: Props) {
   const { t } = useTranslation('deck');
   return (
-    <aside
-      className="flex flex-shrink-0 flex-col gap-4 overflow-auto border-e border-border-subtle bg-bg-base p-4"
-      style={{ width: 260 }}
-    >
+    <aside className="flex w-sidebar flex-shrink-0 flex-col gap-4 overflow-auto border-e border-border-subtle bg-bg-base p-4">
       {/* Preview slot */}
       <div>
         <SectionHead label={t('editor.preview.heading')} />
@@ -28,17 +25,14 @@ export function LeftSidebar({ previewCard, validation, slots }: Props) {
               <CardArt card={previewCard} size="tile" />
             </div>
             <div className="mt-2.5">
-              <div
-                className="text-[13px] font-semibold text-text-primary"
-                style={{ letterSpacing: '-0.005em' }}
-              >
+              <div className="text-sm font-semibold tracking-heading text-text-primary">
                 {previewCard.name}
               </div>
-              <div className="mt-0.5 text-[11px] text-text-muted">
+              <div className="mt-0.5 text-tiny text-text-muted">
                 {previewCard.type}
                 {previewCard.subtype ? ` · ${previewCard.subtype}` : ''}
               </div>
-              <div className="mt-2 flex gap-2.5 text-[11.5px]">
+              <div className="mt-2 flex gap-2.5 text-tiny">
                 {previewCard.power != null && (
                   <span className="font-mono">
                     <span className="text-text-muted">{t('editor.preview.stat_pow')} </span>
@@ -59,16 +53,14 @@ export function LeftSidebar({ previewCard, validation, slots }: Props) {
                 )}
               </div>
               {previewCard.go && (
-                <div className="mt-2 text-[11px] text-text-secondary" style={{ lineHeight: 1.5 }}>
+                <div className="mt-2 text-tiny leading-normal text-text-secondary">
                   <em className="not-italic text-text-muted">{t('editor.preview.go_again')} </em>
                 </div>
               )}
             </div>
           </div>
         ) : (
-          <div
-            className="flex aspect-card items-center justify-center rounded-md border border-dashed border-border-default bg-bg-raised p-5 text-center text-[11.5px] text-text-muted"
-          >
+          <div className="flex aspect-card items-center justify-center rounded-md border border-dashed border-border-default bg-bg-raised p-5 text-center text-tiny text-text-muted">
             {t('editor.preview.empty')}
           </div>
         )}
@@ -79,7 +71,7 @@ export function LeftSidebar({ previewCard, validation, slots }: Props) {
         <SectionHead label={t('editor.analytics.heading')} />
 
         <div>
-          <div className="mb-1.5 text-[11px] text-text-muted">
+          <div className="mb-1.5 text-tiny text-text-muted">
             {t('editor.analytics.pitch_distribution')}
           </div>
           <PitchDistribution data={{ p1: 16, p2: 16, p3: 9 }} />
@@ -97,7 +89,7 @@ export function LeftSidebar({ previewCard, validation, slots }: Props) {
         </div>
 
         <div className="border-t border-border-subtle pt-2.5">
-          <div className="mb-2 text-[11px] text-text-muted">{t('editor.analytics.card_types')}</div>
+          <div className="mb-2 text-tiny text-text-muted">{t('editor.analytics.card_types')}</div>
           <div className="flex flex-col gap-1">
             <StatRow label={t('editor.analytics.type_action')} value="22" />
             <StatRow label={t('editor.analytics.type_attack_action')} value="18" />
@@ -108,14 +100,14 @@ export function LeftSidebar({ previewCard, validation, slots }: Props) {
         </div>
 
         <div className="border-t border-border-subtle pt-2.5">
-          <div className="mb-2 text-[11px] text-text-muted">
+          <div className="mb-2 text-tiny text-text-muted">
             {t('editor.analytics.equipment_slots')}
           </div>
           <EquipmentCoverage slots={slots} />
         </div>
 
         <div className="border-t border-border-subtle pt-2.5">
-          <div className="mb-2 text-[11px] text-text-muted">
+          <div className="mb-2 text-tiny text-text-muted">
             {t('editor.analytics.defense_distribution')}
           </div>
           <DefenseBars data={{ 0: 5, 1: 8, 2: 18, 3: 10 }} />
@@ -129,15 +121,10 @@ export function LeftSidebar({ previewCard, validation, slots }: Props) {
 
 function SectionHead({ label, count }: { label: string; count?: number }) {
   return (
-    <div
-      className="mb-2 flex items-center gap-2 font-semibold uppercase text-text-muted"
-      style={{ fontSize: 10.5, letterSpacing: '0.12em' }}
-    >
+    <div className="mb-2 flex items-center gap-2 text-2xs font-semibold uppercase tracking-label text-text-muted">
       <span>{label}</span>
       {count != null && (
-        <span className="ms-auto font-mono text-text-faint" style={{ letterSpacing: 0 }}>
-          {count}
-        </span>
+        <span className="ms-auto font-mono tracking-normal text-text-faint">{count}</span>
       )}
     </div>
   );
@@ -147,14 +134,9 @@ function ViolationsList() {
   const { t } = useTranslation('deck');
   return (
     <div className="border-t border-border-subtle pt-3.5">
-      <div
-        className="mb-2 flex items-center gap-2 font-semibold uppercase text-state-danger"
-        style={{ fontSize: 10.5, letterSpacing: '0.12em' }}
-      >
+      <div className="mb-2 flex items-center gap-2 text-2xs font-semibold uppercase tracking-label text-state-danger">
         <span>{t('editor.violations.heading')}</span>
-        <span className="ms-auto font-mono text-text-faint" style={{ letterSpacing: 0 }}>
-          3
-        </span>
+        <span className="ms-auto font-mono tracking-normal text-text-faint">3</span>
       </div>
       <div className="flex flex-col gap-1.5">
         {[
@@ -165,8 +147,7 @@ function ViolationsList() {
           <button
             key={m}
             type="button"
-            className="rounded-md border border-state-danger/30 bg-state-danger-soft px-2.5 py-1.5 text-start text-[11.5px] text-text-secondary"
-            style={{ lineHeight: 1.35 }}
+            className="rounded-md border border-state-danger/30 bg-state-danger-soft px-2.5 py-1.5 text-start text-tiny leading-snug text-text-secondary"
           >
             {m}
           </button>

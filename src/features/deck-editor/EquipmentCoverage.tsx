@@ -21,26 +21,17 @@ export function EquipmentCoverage({ slots }: Props) {
   const empty = SLOT_KEYS.length - filled;
   return (
     <div>
-      <div
-        className="mb-1.5 grid gap-1"
-        style={{
-          gridTemplateColumns: 'repeat(3, 1fr)',
-          gridTemplateRows: 'repeat(2, 1fr)',
-          aspectRatio: '3 / 2',
-        }}
-      >
+      <div className="mb-1.5 grid aspect-equipment-grid grid-cols-3 grid-rows-2 gap-1">
         {SLOT_KEYS.map((k) => {
           const filled = slots[k] != null;
+          const tone = filled
+            ? 'bg-accent-brand-soft border-accent-brand-dim text-accent-brand'
+            : 'bg-bg-elevated border-border-subtle text-text-faint';
           return (
             <div
               key={k}
               title={t(`editor.slot.${slotLabelKey(k)}`)}
-              className="flex items-center justify-center rounded-sm border text-[10px] font-semibold"
-              style={{
-                background: filled ? 'var(--accent-brand-soft)' : 'var(--bg-elevated)',
-                borderColor: filled ? 'var(--accent-brand-dim)' : 'var(--border-subtle)',
-                color: filled ? 'var(--accent-brand)' : 'var(--text-faint)',
-              }}
+              className={`flex items-center justify-center rounded-sm border text-2xs font-semibold ${tone}`}
             >
               {t(`editor.slot_short.${slotLabelKey(k)}`)}
             </div>
@@ -48,10 +39,7 @@ export function EquipmentCoverage({ slots }: Props) {
         })}
       </div>
       {empty > 0 && (
-        <div
-          className="flex items-center gap-1 text-state-warning"
-          style={{ fontSize: 10.5 }}
-        >
+        <div className="flex items-center gap-1 text-2xs text-state-warning">
           <Icon.alert size={12} />
           {empty} {empty > 1 ? 'slots empty' : 'slot empty'}
         </div>

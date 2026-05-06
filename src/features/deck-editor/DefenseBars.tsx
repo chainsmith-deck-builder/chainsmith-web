@@ -15,12 +15,13 @@ export function DefenseBars({ data }: Props) {
         const h = max > 0 ? (v / max) * 100 : 0;
         return (
           <div key={d} className="flex flex-1 flex-col items-center gap-1">
-            <span className="font-mono text-[10px] text-text-muted">{v}</span>
+            <span className="font-mono text-2xs text-text-muted">{v}</span>
             <div
               className="w-full rounded-sm bg-text-faint"
+              // eslint-disable-next-line react/forbid-dom-props -- runtime-computed bar height percentage
               style={{ height: `${h}%`, minHeight: v > 0 ? 4 : 0 }}
             />
-            <span className="text-text-faint" style={{ fontSize: 9.5 }}>
+            <span className="text-2xs text-text-faint">
               {t('editor.analytics.slot_d_label', { n: d })}
             </span>
           </div>

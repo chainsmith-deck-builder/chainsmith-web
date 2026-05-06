@@ -41,14 +41,11 @@ export function CardDrawer({ card, onClose, readOnly = false, showRemoveFromPool
         type="button"
         aria-label={tCommon('actions.close')}
         onClick={onClose}
-        className="absolute inset-0 z-[100] bg-black/50"
+        className="absolute inset-0 z-100 bg-black/50"
       />
-      <aside
-        className="absolute bottom-0 end-0 top-0 z-[101] flex flex-col overflow-hidden border-s border-border-subtle bg-bg-raised"
-        style={{ width: 440, boxShadow: '-12px 0 40px rgba(0,0,0,0.4)' }}
-      >
+      <aside className="absolute bottom-0 end-0 top-0 z-101 flex w-drawer flex-col overflow-hidden border-s border-border-subtle bg-bg-raised shadow-drawer">
         <div className="flex items-center border-b border-border-subtle px-5 py-3.5">
-          <div className="text-[13px] font-semibold">{t('editor.card_drawer.title')}</div>
+          <div className="text-sm font-semibold">{t('editor.card_drawer.title')}</div>
           <button
             type="button"
             onClick={onClose}
@@ -66,13 +63,8 @@ export function CardDrawer({ card, onClose, readOnly = false, showRemoveFromPool
             </div>
           </div>
           <div className="mb-3.5">
-            <h3
-              className="m-0 text-[18px] font-semibold"
-              style={{ letterSpacing: '-0.01em' }}
-            >
-              {card.name}
-            </h3>
-            <div className="mt-0.5 text-[12px] text-text-muted">
+            <h3 className="m-0 text-lg font-semibold tracking-heading">{card.name}</h3>
+            <div className="mt-0.5 text-xs text-text-muted">
               {card.type}
               {card.subtype ? ` · ${card.subtype}` : ''}
             </div>
@@ -80,8 +72,7 @@ export function CardDrawer({ card, onClose, readOnly = false, showRemoveFromPool
 
           {!readOnly && (
             <div
-              className="mb-4 flex items-center gap-1 rounded-md border border-border-subtle bg-bg-base p-2.5"
-              style={{ marginBottom: showRemoveFromPool ? 8 : 16 }}
+              className={`flex items-center gap-1 rounded-md border border-border-subtle bg-bg-base p-2.5 ${showRemoveFromPool ? 'mb-2' : 'mb-4'}`}
             >
               <button
                 type="button"
@@ -90,10 +81,7 @@ export function CardDrawer({ card, onClose, readOnly = false, showRemoveFromPool
               >
                 <Icon.minus />
               </button>
-              <span
-                className="font-mono text-[14px] font-semibold"
-                style={{ minWidth: 30, textAlign: 'center' }}
-              >
+              <span className="min-w-8 text-center font-mono text-sm font-semibold">
                 {showRemoveFromPool ? '0' : '3'}
               </span>
               <button
@@ -103,7 +91,7 @@ export function CardDrawer({ card, onClose, readOnly = false, showRemoveFromPool
               >
                 <Icon.plus />
               </button>
-              <span className="ms-2.5 text-[11.5px] text-text-muted">
+              <span className="ms-2.5 text-tiny text-text-muted">
                 {showRemoveFromPool
                   ? t('editor.card_drawer.in_active_loadout')
                   : t('editor.card_drawer.copies_in_deck')}
@@ -113,26 +101,17 @@ export function CardDrawer({ card, onClose, readOnly = false, showRemoveFromPool
 
           {!readOnly && showRemoveFromPool && (
             <div className="mb-4 rounded-md border border-state-danger/25 bg-state-danger-soft px-3 py-2.5">
-              <div
-                className="mb-2 text-[11.5px] text-text-secondary"
-                style={{ lineHeight: 1.5 }}
-              >
+              <div className="mb-2 text-tiny leading-normal text-text-secondary">
                 {t('editor.card_drawer.orphaned_pool', { qty: 2 })}
               </div>
-              <Button
-                variant="secondary"
-                className="border-state-danger/40 text-state-danger"
-              >
+              <Button variant="secondary" className="border-state-danger/40 text-state-danger">
                 <Icon.x /> {t('editor.card_drawer.remove_from_pool')}
               </Button>
             </div>
           )}
 
           <SectionHead label={t('editor.card_drawer.rules_text')} />
-          <div
-            className="mb-4 text-[12.5px] text-text-secondary"
-            style={{ lineHeight: 1.55 }}
-          >
+          <div className="mb-4 text-xs leading-relaxed text-text-secondary">
             <em className="not-italic text-text-muted">
               {t('editor.card_drawer.rules_text_label_instant')}
             </em>
@@ -145,34 +124,24 @@ export function CardDrawer({ card, onClose, readOnly = false, showRemoveFromPool
           <SectionHead label={t('editor.card_drawer.printings')} count={DEMO_PRINTINGS.length} />
           <div className="flex flex-col gap-1.5">
             {DEMO_PRINTINGS.map((p, i) => (
-              <PrintingRow
-                key={i}
-                printing={p}
-                readOnly={readOnly}
-              />
+              <PrintingRow key={i} printing={p} readOnly={readOnly} />
             ))}
           </div>
 
           <div className="mt-4">
             <SectionHead label={t('editor.card_drawer.format_legality')} />
-            <div className="flex flex-col gap-1 text-[11.5px]">
+            <div className="flex flex-col gap-1 text-tiny">
               {DEMO_LEGALITY.map(({ format, legal }) => (
                 <div key={format} className="flex items-center gap-1.5">
                   <span
                     aria-hidden="true"
-                    className="block h-1.5 w-1.5 rounded-full"
-                    style={{ background: legal ? 'var(--state-success)' : 'var(--text-faint)' }}
+                    className={`block h-1.5 w-1.5 rounded-full ${legal ? 'bg-state-success' : 'bg-text-faint'}`}
                   />
-                  <span
-                    style={{ color: legal ? 'var(--text-secondary)' : 'var(--text-muted)' }}
-                  >
+                  <span className={legal ? 'text-text-secondary' : 'text-text-muted'}>
                     {format}
                   </span>
                   {!legal && (
-                    <span
-                      className="ms-auto text-text-faint"
-                      style={{ fontSize: 10.5 }}
-                    >
+                    <span className="ms-auto text-2xs text-text-faint">
                       {t('editor.card_drawer.not_legal_short')}
                     </span>
                   )}
@@ -192,22 +161,19 @@ function PrintingRow({ printing, readOnly }: { printing: Printing; readOnly: boo
     printing.edition === 'first'
       ? t('editor.card_drawer.edition_first')
       : t('editor.card_drawer.edition_unlimited');
+  const tone = printing.selected
+    ? 'bg-accent-brand-soft border-accent-brand-dim'
+    : 'bg-bg-base border-border-subtle';
   return (
-    <div
-      className="flex items-center gap-2.5 rounded-md border px-2.5 py-2"
-      style={{
-        background: printing.selected ? 'var(--accent-brand-soft)' : 'var(--bg-base)',
-        borderColor: printing.selected ? 'var(--accent-brand-dim)' : 'var(--border-subtle)',
-      }}
-    >
-      <div className="font-mono text-[11px] text-text-secondary">
+    <div className={`flex items-center gap-2.5 rounded-md border px-2.5 py-2 ${tone}`}>
+      <div className="font-mono text-tiny text-text-secondary">
         {printing.set}-{printing.cn}
       </div>
-      <div className="text-[11.5px] text-text-secondary">
+      <div className="text-tiny text-text-secondary">
         {editionLabel} · {t('editor.card_drawer.rarity_common')}
       </div>
       {printing.selected ? (
-        <span className="ms-auto inline-flex items-center gap-1 text-[10.5px] font-semibold text-accent-brand">
+        <span className="ms-auto inline-flex items-center gap-1 text-2xs font-semibold text-accent-brand">
           <Icon.check />
           {readOnly
             ? t('editor.card_drawer.printing_used')
@@ -217,7 +183,7 @@ function PrintingRow({ printing, readOnly }: { printing: Printing; readOnly: boo
         !readOnly && (
           <button
             type="button"
-            className="ms-auto inline-flex h-6 items-center gap-1.5 rounded-md px-2 text-[11px] text-text-secondary transition-colors duration-fast hover:bg-bg-overlay hover:text-text-primary"
+            className="ms-auto inline-flex h-6 items-center gap-1.5 rounded-md px-2 text-tiny text-text-secondary transition-colors duration-fast hover:bg-bg-overlay hover:text-text-primary"
           >
             {t('editor.card_drawer.printing_use_this')}
           </button>
@@ -229,15 +195,10 @@ function PrintingRow({ printing, readOnly }: { printing: Printing; readOnly: boo
 
 function SectionHead({ label, count }: { label: string; count?: number }) {
   return (
-    <div
-      className="mb-2 flex items-center gap-2 font-semibold uppercase text-text-muted"
-      style={{ fontSize: 10.5, letterSpacing: '0.12em' }}
-    >
+    <div className="mb-2 flex items-center gap-2 text-2xs font-semibold uppercase tracking-label text-text-muted">
       <span>{label}</span>
       {count != null && (
-        <span className="ms-auto font-mono text-text-faint" style={{ letterSpacing: 0 }}>
-          {count}
-        </span>
+        <span className="ms-auto font-mono tracking-normal text-text-faint">{count}</span>
       )}
     </div>
   );

@@ -13,18 +13,16 @@ export function BottomActionBar({ remaining }: Props) {
       <div className="flex items-center gap-2">
         <button
           type="button"
-          className="inline-flex h-7 items-center gap-1.5 rounded-md px-2.5 text-[12.5px] text-text-secondary transition-colors duration-fast hover:bg-bg-raised hover:text-text-primary"
+          className="inline-flex h-7 items-center gap-1.5 rounded-md px-2.5 text-xs text-text-secondary transition-colors duration-fast hover:bg-bg-raised hover:text-text-primary"
         >
           {t('editor.empty.shortcut_help')}
-          <span className="ms-1 rounded-sm bg-bg-elevated px-1 py-px font-mono text-[10px]">
-            ?
-          </span>
+          <span className="ms-1 rounded-sm bg-bg-elevated px-1 py-px font-mono text-2xs">?</span>
         </button>
       </div>
       <div className="absolute start-1/2 -translate-x-1/2">
         <button
           type="button"
-          className="inline-flex h-8 items-center gap-1.5 rounded-md border border-border-subtle bg-bg-raised px-3 text-[13px] font-medium text-text-primary transition-colors duration-fast hover:bg-bg-overlay"
+          className="inline-flex h-8 items-center gap-1.5 rounded-md border border-border-subtle bg-bg-raised px-3 text-sm font-medium text-text-primary transition-colors duration-fast hover:bg-bg-overlay"
         >
           {t('editor.footer.load_more_remaining', { remaining: remaining.toLocaleString() })}
         </button>
@@ -32,13 +30,13 @@ export function BottomActionBar({ remaining }: Props) {
       <div className="ms-auto flex gap-2">
         <button
           type="button"
-          className="inline-flex h-7 items-center gap-1.5 rounded-md px-2.5 text-[12.5px] text-text-secondary transition-colors duration-fast hover:bg-bg-raised hover:text-text-primary"
+          className="inline-flex h-7 items-center gap-1.5 rounded-md px-2.5 text-xs text-text-secondary transition-colors duration-fast hover:bg-bg-raised hover:text-text-primary"
         >
           <Icon.copy /> {tCommon('actions.duplicate')}
         </button>
         <button
           type="button"
-          className="inline-flex h-7 items-center gap-1.5 rounded-md px-2.5 text-[12.5px] text-text-secondary transition-colors duration-fast hover:bg-bg-raised hover:text-text-primary"
+          className="inline-flex h-7 items-center gap-1.5 rounded-md px-2.5 text-xs text-text-secondary transition-colors duration-fast hover:bg-bg-raised hover:text-text-primary"
         >
           <Icon.download /> {tCommon('actions.export')}
         </button>

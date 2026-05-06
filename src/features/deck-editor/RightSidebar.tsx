@@ -56,27 +56,22 @@ export function RightSidebar({
   const isPool = variants && activeTab === 'Pool';
 
   return (
-    <aside
-      className="flex flex-shrink-0 flex-col overflow-hidden border-s border-border-subtle bg-bg-base"
-      style={{ width: 360 }}
-    >
+    <aside className="flex w-sidebar-wide flex-shrink-0 flex-col overflow-hidden border-s border-border-subtle bg-bg-base">
       {/* Variant tabs */}
       {variants && (
         <div className="flex gap-0 border-b border-border-subtle bg-bg-base px-2 pt-2">
           {(['Pool', 'Main', 'vs. Bravo'] as const).map((tab) => {
             const isActive = activeTab === tab;
+            const tone = isActive
+              ? 'border-accent-brand text-text-primary'
+              : 'border-transparent text-text-muted';
             return (
               <button
                 key={tab}
                 type="button"
                 onClick={() => onSetActiveTab(tab)}
                 aria-pressed={isActive}
-                className="bg-transparent px-3 py-2 text-[12px] font-medium"
-                style={{
-                  color: isActive ? 'var(--text-primary)' : 'var(--text-muted)',
-                  borderBottom: isActive ? '2px solid var(--accent-brand)' : '2px solid transparent',
-                  marginBottom: -1,
-                }}
+                className={`-mb-px border-b-2 bg-transparent px-3 py-2 text-xs font-medium ${tone}`}
               >
                 {tab === 'Pool'
                   ? t('editor.variant_tabs.pool')
@@ -135,12 +130,9 @@ export function RightSidebar({
             />
           )}
           <div className="flex items-center px-1 pb-2">
-            <div
-              className="font-semibold uppercase text-text-secondary"
-              style={{ fontSize: 11, letterSpacing: '0.1em' }}
-            >
+            <div className="text-tiny font-semibold uppercase tracking-widest text-text-secondary">
               {isPool ? t('editor.deck_panel.pool') : t('editor.deck_panel.deck')}
-              <span className="ms-1.5 font-mono text-text-muted" style={{ letterSpacing: 0 }}>
+              <span className="ms-1.5 font-mono tracking-normal text-text-muted">
                 {t('editor.deck_panel.deck_capacity', {
                   n: totalCards,
                   cap: isPool ? 80 : 60,
@@ -162,16 +154,10 @@ export function RightSidebar({
             const totalQty = rows.reduce((s, r) => s + r.qty, 0);
             return (
               <div key={groupName} className="mb-2.5">
-                <div
-                  className="flex items-center gap-2 px-2 pb-1 pt-1.5 font-semibold uppercase text-text-muted"
-                  style={{ fontSize: 10.5, letterSpacing: '0.12em' }}
-                >
+                <div className="flex items-center gap-2 px-2 pb-1 pt-1.5 text-2xs font-semibold uppercase tracking-label text-text-muted">
                   {grouping === 'pitch' && <PitchDotForGroup name={groupName} />}
                   {groupName}
-                  <span
-                    className="ms-auto font-mono text-text-faint"
-                    style={{ letterSpacing: 0 }}
-                  >
+                  <span className="ms-auto font-mono tracking-normal text-text-faint">
                     {totalQty}
                   </span>
                 </div>
@@ -204,15 +190,12 @@ export function RightSidebar({
 }
 
 function GroupToggle({ active, children }: { active: boolean; children: React.ReactNode }) {
+  const tone = active ? 'bg-bg-elevated text-text-primary' : 'bg-transparent text-text-muted';
   return (
     <button
       type="button"
       aria-pressed={active}
-      className="rounded-sm px-1.5 py-0.5 text-[10px] font-medium"
-      style={{
-        background: active ? 'var(--bg-elevated)' : 'transparent',
-        color: active ? 'var(--text-primary)' : 'var(--text-muted)',
-      }}
+      className={`rounded-sm px-1.5 py-0.5 text-2xs font-medium ${tone}`}
     >
       {children}
     </button>
@@ -231,9 +214,7 @@ function PoolCapacityReadout({
   const mainTotal = sumNonEquip(loadoutDecks['Main'] ?? []);
   const bravoTotal = sumNonEquip(loadoutDecks['vs. Bravo'] ?? []);
   return (
-    <div
-      className="mx-1 mb-2.5 flex flex-wrap items-center gap-2 rounded-md border border-border-subtle bg-bg-raised px-2.5 py-2 text-[11px] text-text-secondary"
-    >
+    <div className="mx-1 mb-2.5 flex flex-wrap items-center gap-2 rounded-md border border-border-subtle bg-bg-raised px-2.5 py-2 text-tiny text-text-secondary">
       <span>
         <span className="font-mono font-semibold text-text-primary">{poolTotal}/80</span>{' '}
         <span className="text-text-muted">{t('editor.capacity.pool')}</span>
@@ -258,15 +239,10 @@ function PoolCapacityReadout({
 
 function SectionHead({ label, count }: { label: string; count?: string }) {
   return (
-    <div
-      className="mb-2.5 flex items-center gap-2 font-semibold uppercase text-text-muted"
-      style={{ fontSize: 10.5, letterSpacing: '0.12em' }}
-    >
+    <div className="mb-2.5 flex items-center gap-2 text-2xs font-semibold uppercase tracking-label text-text-muted">
       <span>{label}</span>
       {count && (
-        <span className="ms-auto font-mono text-text-faint" style={{ letterSpacing: 0 }}>
-          {count}
-        </span>
+        <span className="ms-auto font-mono tracking-normal text-text-faint">{count}</span>
       )}
     </div>
   );

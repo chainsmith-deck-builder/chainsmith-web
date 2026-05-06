@@ -36,13 +36,10 @@ export function CenterColumn({ deckQtyById, onCardHover, onCardClick, onAdd }: P
       <div className="border-b border-border-subtle px-5 pb-3 pt-4">
         <div className="mb-3 flex items-baseline justify-between">
           <div>
-            <h2
-              className="m-0 text-[16px] font-semibold"
-              style={{ letterSpacing: '-0.01em' }}
-            >
+            <h2 className="m-0 text-base font-semibold tracking-heading">
               {t('editor.search.title')}
             </h2>
-            <div className="mt-0.5 text-[11.5px] text-text-muted">
+            <div className="mt-0.5 text-tiny text-text-muted">
               {t('editor.search.subtitle_count')} ·{' '}
               <span className="font-mono">
                 {t('editor.search.of_total', { shown: CARDS.length, total: 1247 })}
@@ -50,32 +47,20 @@ export function CenterColumn({ deckQtyById, onCardHover, onCardClick, onAdd }: P
             </div>
           </div>
           <div className="flex gap-1 rounded-md bg-bg-raised p-0.5">
-            <button
-              type="button"
+            <ViewToggle
+              active={view === 'grid'}
               onClick={() => setView('grid')}
-              aria-pressed={view === 'grid'}
-              aria-label={t('list.view.grid')}
-              className="flex h-6 w-7 items-center justify-center rounded-sm"
-              style={{
-                background: view === 'grid' ? 'var(--bg-elevated)' : 'transparent',
-                color: view === 'grid' ? 'var(--text-primary)' : 'var(--text-muted)',
-              }}
+              ariaLabel={t('list.view.grid')}
             >
               <Icon.grid />
-            </button>
-            <button
-              type="button"
+            </ViewToggle>
+            <ViewToggle
+              active={view === 'list'}
               onClick={() => setView('list')}
-              aria-pressed={view === 'list'}
-              aria-label={t('list.view.list')}
-              className="flex h-6 w-7 items-center justify-center rounded-sm"
-              style={{
-                background: view === 'list' ? 'var(--bg-elevated)' : 'transparent',
-                color: view === 'list' ? 'var(--text-primary)' : 'var(--text-muted)',
-              }}
+              ariaLabel={t('list.view.list')}
             >
               <Icon.list />
-            </button>
+            </ViewToggle>
           </div>
         </div>
 
@@ -89,11 +74,11 @@ export function CenterColumn({ deckQtyById, onCardHover, onCardClick, onAdd }: P
             onChange={(e) => setSearch(e.target.value)}
             placeholder={t('editor.search.placeholder')}
             aria-label={t('editor.search.placeholder')}
-            className="block h-9 w-full rounded-md border border-border-subtle bg-bg-input px-9 text-[13px] text-text-primary outline-none"
+            className="block h-9 w-full rounded-md border border-border-subtle bg-bg-input px-9 text-sm text-text-primary outline-none"
           />
           <span
             title={t('editor.search.kbd_focus_hint')}
-            className="absolute end-2.5 top-1/2 -translate-y-1/2 rounded-sm bg-bg-raised px-1.5 py-0.5 font-mono text-[11px] leading-none text-text-faint"
+            className="absolute end-2.5 top-1/2 -translate-y-1/2 rounded-sm bg-bg-raised px-1.5 py-0.5 font-mono text-tiny leading-none text-text-faint"
           >
             /
           </span>
@@ -117,29 +102,23 @@ export function CenterColumn({ deckQtyById, onCardHover, onCardClick, onAdd }: P
           <button
             type="button"
             onClick={() => setAdvOpen((o) => !o)}
-            className="ms-1 inline-flex h-7 items-center gap-1.5 rounded-md px-2.5 text-[12.5px] text-text-secondary transition-colors duration-fast hover:bg-bg-raised hover:text-text-primary"
+            className="ms-1 inline-flex h-7 items-center gap-1.5 rounded-md px-2.5 text-xs text-text-secondary transition-colors duration-fast hover:bg-bg-raised hover:text-text-primary"
           >
             <Icon.filter /> {tCatalog('browse.filter.advanced')}
           </button>
-          <span className="ms-auto font-mono text-[11.5px] text-text-muted">
+          <span className="ms-auto font-mono text-tiny text-text-muted">
             {t('editor.search.match_count', { n: filtered.length, shown: filtered.length })}
           </span>
         </div>
 
         {advOpen && (
-          <div
-            className="mt-2.5 grid gap-3 rounded-lg border border-border-subtle bg-bg-raised p-3"
-            style={{ gridTemplateColumns: 'repeat(4, 1fr)' }}
-          >
+          <div className="mt-2.5 grid grid-cols-4 gap-3 rounded-lg border border-border-subtle bg-bg-raised p-3">
             {ADVANCED_FIELDS.map((f) => (
               <div key={f.key}>
-                <div
-                  className="mb-1 font-medium uppercase text-text-muted"
-                  style={{ fontSize: 10.5, letterSpacing: '0.1em' }}
-                >
+                <div className="mb-1 text-2xs font-medium uppercase tracking-widest text-text-muted">
                   {t(f.key)}
                 </div>
-                <div className="flex h-7 items-center rounded-md border border-border-subtle bg-bg-input px-2.5 text-[11.5px] text-text-faint">
+                <div className="flex h-7 items-center rounded-md border border-border-subtle bg-bg-input px-2.5 text-tiny text-text-faint">
                   {t('editor.search.advanced_field_any')}
                 </div>
               </div>
@@ -152,6 +131,7 @@ export function CenterColumn({ deckQtyById, onCardHover, onCardClick, onAdd }: P
       <div className="flex-1 overflow-auto p-4">
         <div
           className="grid gap-3"
+          // eslint-disable-next-line react/forbid-dom-props -- responsive auto-fill grid template; no Tailwind utility
           style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(122px, 1fr))' }}
         >
           {filtered.map((c) => {
@@ -176,6 +156,31 @@ export function CenterColumn({ deckQtyById, onCardHover, onCardClick, onAdd }: P
         </div>
       </div>
     </main>
+  );
+}
+
+function ViewToggle({
+  active,
+  onClick,
+  ariaLabel,
+  children,
+}: {
+  active: boolean;
+  onClick: () => void;
+  ariaLabel: string;
+  children: React.ReactNode;
+}) {
+  const tone = active ? 'bg-bg-elevated text-text-primary' : 'bg-transparent text-text-muted';
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      aria-pressed={active}
+      aria-label={ariaLabel}
+      className={`flex h-6 w-7 items-center justify-center rounded-sm ${tone}`}
+    >
+      {children}
+    </button>
   );
 }
 

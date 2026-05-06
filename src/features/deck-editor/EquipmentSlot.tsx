@@ -16,10 +16,7 @@ export function EquipmentSlot({ slot, card }: Props) {
     return (
       <div className="relative aspect-card overflow-hidden rounded-md">
         <CardArt card={card} size="tile" />
-        <span
-          className="absolute bottom-1 start-1 rounded-sm bg-black/65 px-1.5 py-0.5 font-medium uppercase text-[#F2EEE6]"
-          style={{ fontSize: 9, letterSpacing: '0.08em' }}
-        >
+        <span className="absolute bottom-1 start-1 rounded-sm bg-black/65 px-1.5 py-0.5 text-2xs font-medium uppercase tracking-widest text-text-on-art">
           {label}
         </span>
       </div>
@@ -29,7 +26,7 @@ export function EquipmentSlot({ slot, card }: Props) {
     <button
       type="button"
       aria-label={label}
-      className="flex aspect-card flex-col items-center justify-center gap-1 rounded-md border border-dashed border-border-default bg-transparent text-[10.5px] text-text-muted transition-colors duration-fast hover:bg-bg-overlay hover:text-text-secondary"
+      className="flex aspect-card flex-col items-center justify-center gap-1 rounded-md border border-dashed border-border-default bg-transparent text-2xs text-text-muted transition-colors duration-fast hover:bg-bg-overlay hover:text-text-secondary"
     >
       <Icon.plus />
       <span>{label}</span>

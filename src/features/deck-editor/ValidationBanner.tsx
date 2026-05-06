@@ -12,7 +12,7 @@ export function ValidationBanner({ onDismiss, count }: Props) {
   return (
     <div
       role="alert"
-      className="flex items-center gap-2.5 border-b border-state-danger/30 bg-state-danger-soft px-5 py-2.5 text-[12.5px]"
+      className="flex items-center gap-2.5 border-b border-state-danger/30 bg-state-danger-soft px-5 py-2.5 text-xs"
     >
       <span className="text-state-danger">
         <Icon.alert />

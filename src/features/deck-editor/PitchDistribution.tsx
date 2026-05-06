@@ -11,11 +11,14 @@ export function PitchDistribution({ data }: Props) {
   return (
     <div className="flex flex-col gap-2">
       <div className="flex h-2 overflow-hidden rounded-full bg-bg-elevated">
-        <div style={{ width: `${pct(data.p1)}%`, background: 'var(--viz-pitch-1)' }} />
-        <div style={{ width: `${pct(data.p2)}%`, background: 'var(--viz-pitch-2)' }} />
-        <div style={{ width: `${pct(data.p3)}%`, background: 'var(--viz-pitch-3)' }} />
+        {/* eslint-disable-next-line react/forbid-dom-props -- runtime-computed bar width percentage */}
+        <div className="bg-viz-pitch-1" style={{ width: `${pct(data.p1)}%` }} />
+        {/* eslint-disable-next-line react/forbid-dom-props -- runtime-computed bar width percentage */}
+        <div className="bg-viz-pitch-2" style={{ width: `${pct(data.p2)}%` }} />
+        {/* eslint-disable-next-line react/forbid-dom-props -- runtime-computed bar width percentage */}
+        <div className="bg-viz-pitch-3" style={{ width: `${pct(data.p3)}%` }} />
       </div>
-      <div className="flex justify-between text-[11px]">
+      <div className="flex justify-between text-tiny">
         <DistEntry pitch={1} count={data.p1} pct={pct(data.p1)} />
         <DistEntry pitch={2} count={data.p2} pct={pct(data.p2)} />
         <DistEntry pitch={3} count={data.p3} pct={pct(data.p3)} />

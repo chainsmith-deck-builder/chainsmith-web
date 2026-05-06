@@ -82,6 +82,15 @@ export default {
       ringWidth: {
         3: '3px',
       },
+      // Overlay-stack steps used by the card drawer (100/101) and the variant
+      // modal (200/201). Backdrop sits one step below its panel so the panel
+      // catches clicks without explicit pointer-events juggling.
+      zIndex: {
+        100: '100',
+        101: '101',
+        200: '200',
+        201: '201',
+      },
       borderRadius: {
         sm: 'var(--radius-sm)',
         md: 'var(--radius-md)',
@@ -98,6 +107,7 @@ export default {
       // Cap aspect-ratio aliases at the values the design uses; card art is locked to 5:7 per fab-domain.md.
       aspectRatio: {
         card: '5 / 7',
+        'equipment-grid': '3 / 2',
       },
     },
   },

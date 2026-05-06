@@ -34,15 +34,10 @@ export function TopChrome({
       {/* Header bar (56px) */}
       <header className="flex h-14 flex-shrink-0 items-center gap-6 border-b border-border-subtle bg-bg-base px-5">
         <div className="flex items-center gap-2">
-          <span
-            className="flex h-6 w-6 items-center justify-center rounded-md bg-accent-brand text-[13px] font-bold text-white"
-            style={{ letterSpacing: '-0.04em' }}
-          >
+          <span className="flex h-6 w-6 items-center justify-center rounded-md bg-accent-brand text-sm font-bold tracking-display text-white">
             C
           </span>
-          <span className="text-[14.5px] font-semibold" style={{ letterSpacing: '-0.01em' }}>
-            {tCommon('app.name')}
-          </span>
+          <span className="text-sm font-semibold tracking-heading">{tCommon('app.name')}</span>
         </div>
         <nav className="ms-4 flex gap-1">
           <NavLink active>{tCommon('nav.deck_builder')}</NavLink>
@@ -59,8 +54,7 @@ export function TopChrome({
           </button>
           <span
             aria-hidden="true"
-            className="flex h-7 w-7 items-center justify-center rounded-full text-[12px] font-semibold text-white"
-            style={{ background: 'oklch(0.5 0.10 30)' }}
+            className="flex h-7 w-7 items-center justify-center rounded-full bg-avatar-fallback text-xs font-semibold text-white"
           >
             JM
           </span>
@@ -77,71 +71,61 @@ export function TopChrome({
           <Icon.arrowLeft />
         </button>
         <div className="flex min-w-0 items-baseline gap-2.5">
-          <span
-            className="text-[15px] font-semibold text-text-primary"
-            style={{ letterSpacing: '-0.01em' }}
-          >
+          <span className="text-sm font-semibold tracking-heading text-text-primary">
             {deckTitle}
           </span>
-          <span
-            className="font-medium uppercase text-text-faint"
-            style={{ fontSize: 9.5, letterSpacing: '0.1em' }}
-          >
+          <span className="text-2xs font-medium uppercase tracking-widest text-text-faint">
             {t('editor.rename_hint')}
           </span>
         </div>
         <div className="ms-3.5 flex items-center gap-2">
-          <span className="inline-flex h-5 items-center gap-1.5 rounded-full border border-border-subtle bg-bg-raised px-3 text-[11px] font-medium text-text-secondary">
+          <span className="inline-flex h-5 items-center gap-1.5 rounded-full border border-border-subtle bg-bg-raised px-3 text-tiny font-medium text-text-secondary">
             {heroClass}
           </span>
           <span
-            className="inline-flex h-5 items-center gap-1.5 rounded-full border border-border-subtle bg-bg-raised px-3 text-[11px] font-medium text-text-secondary"
+            className="inline-flex h-5 items-center gap-1.5 rounded-full border border-border-subtle bg-bg-raised px-3 text-tiny font-medium text-text-secondary"
             title={isPool ? t('editor.capacity.pool') : ''}
           >
             <span className="font-mono">
               {count}/{cap}
             </span>
             {isPool && (
-              <span
-                className="font-medium uppercase text-text-faint"
-                style={{ fontSize: 9.5, letterSpacing: '0.1em' }}
-              >
+              <span className="text-2xs font-medium uppercase tracking-widest text-text-faint">
                 {t('editor.capacity.pool')}
               </span>
             )}
           </span>
-          <button
-            type="button"
-            onClick={onShowDrawer}
-            className="bg-transparent"
-          >
+          <button type="button" onClick={onShowDrawer} className="bg-transparent">
             {validation === 'illegal' ? (
-              <ValidityBadge legal={false} customLabel={tCommon('validity.violations', { count: 3 })} />
+              <ValidityBadge
+                legal={false}
+                customLabel={tCommon('validity.violations', { count: 3 })}
+              />
             ) : (
               <ValidityBadge legal={true} />
             )}
           </button>
         </div>
         <div className="ms-auto flex items-center gap-2">
-          <span className="flex items-center gap-1.5 text-[11.5px] text-text-muted">
+          <span className="flex items-center gap-1.5 text-tiny text-text-muted">
             <span aria-hidden="true" className="block h-1.5 w-1.5 rounded-full bg-state-success" />
             {t('editor.saved_seconds_ago', { seconds: 2 })}
           </span>
           <button
             type="button"
-            className="inline-flex h-7 items-center gap-1.5 rounded-md px-2.5 text-[12.5px] text-text-secondary transition-colors duration-fast hover:bg-bg-raised hover:text-text-primary"
+            className="inline-flex h-7 items-center gap-1.5 rounded-md px-2.5 text-xs text-text-secondary transition-colors duration-fast hover:bg-bg-raised hover:text-text-primary"
           >
             <Icon.plus /> {t('editor.variant')}
           </button>
           <button
             type="button"
-            className="inline-flex h-8 items-center gap-1.5 rounded-md border border-border-subtle bg-bg-raised px-3 text-[13px] font-medium text-text-primary transition-colors duration-fast hover:bg-bg-overlay"
+            className="inline-flex h-8 items-center gap-1.5 rounded-md border border-border-subtle bg-bg-raised px-3 text-sm font-medium text-text-primary transition-colors duration-fast hover:bg-bg-overlay"
           >
             <Icon.share /> {tCommon('actions.share')}
           </button>
           <button
             type="button"
-            className="inline-flex h-8 items-center gap-1.5 rounded-md border border-border-subtle bg-bg-raised px-3 text-[13px] font-medium text-text-primary transition-colors duration-fast hover:bg-bg-overlay"
+            className="inline-flex h-8 items-center gap-1.5 rounded-md border border-border-subtle bg-bg-raised px-3 text-sm font-medium text-text-primary transition-colors duration-fast hover:bg-bg-overlay"
           >
             <Icon.download /> {tCommon('actions.export')}
           </button>
@@ -159,14 +143,9 @@ export function TopChrome({
 }
 
 function NavLink({ active = false, children }: { active?: boolean; children: React.ReactNode }) {
+  const tone = active ? 'bg-bg-raised text-text-primary' : 'bg-transparent text-text-secondary';
   return (
-    <span
-      className="cursor-pointer rounded-md px-2.5 py-1.5 text-[13px] font-medium"
-      style={{
-        color: active ? 'var(--text-primary)' : 'var(--text-secondary)',
-        background: active ? 'var(--bg-raised)' : 'transparent',
-      }}
-    >
+    <span className={`cursor-pointer rounded-md px-2.5 py-1.5 text-sm font-medium ${tone}`}>
       {children}
     </span>
   );
