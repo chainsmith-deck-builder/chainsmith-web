@@ -166,21 +166,20 @@ function CheckboxItem({
   onToggle: () => void;
   label: string;
 }) {
+  const boxTone = checked
+    ? 'bg-accent-brand border-accent-brand'
+    : 'bg-transparent border-border-default';
   return (
     <button
       type="button"
       role="menuitemcheckbox"
       aria-checked={checked}
       onClick={onToggle}
-      className="flex w-full cursor-pointer items-center gap-2 rounded-md px-2 py-1.5 text-start text-[12.5px] text-text-primary hover:bg-bg-raised"
+      className="flex w-full cursor-pointer items-center gap-2 rounded-md px-2 py-1.5 text-start text-xs text-text-primary hover:bg-bg-raised"
     >
       <span
         aria-hidden="true"
-        className="flex h-3.5 w-3.5 flex-shrink-0 items-center justify-center rounded-sm border"
-        style={{
-          background: checked ? 'var(--accent-brand)' : 'transparent',
-          borderColor: checked ? 'var(--accent-brand)' : 'var(--border-default)',
-        }}
+        className={`flex h-3.5 w-3.5 flex-shrink-0 items-center justify-center rounded-sm border ${boxTone}`}
       >
         {checked && (
           <svg
@@ -215,17 +214,14 @@ function RadioItem({
   onSelect: () => void;
   label: React.ReactNode;
 }) {
+  const tone = checked ? 'bg-bg-raised font-semibold' : 'bg-transparent font-normal';
   return (
     <button
       type="button"
       role="menuitemradio"
       aria-checked={checked}
       onClick={onSelect}
-      className="flex cursor-pointer items-center gap-2 rounded-md px-2 py-1.5 text-start text-[12.5px] text-text-primary hover:bg-bg-raised"
-      style={{
-        background: checked ? 'var(--bg-raised)' : 'transparent',
-        fontWeight: checked ? 600 : 400,
-      }}
+      className={`flex cursor-pointer items-center gap-2 rounded-md px-2 py-1.5 text-start text-xs text-text-primary hover:bg-bg-raised ${tone}`}
     >
       {label}
     </button>
@@ -238,7 +234,7 @@ function ClearButton({ onClick }: { onClick: () => void }) {
     <button
       type="button"
       onClick={onClick}
-      className="mt-1 border-t border-border-subtle px-2 py-1.5 text-start text-[12px] font-medium text-text-secondary hover:text-text-primary"
+      className="mt-1 border-t border-border-subtle px-2 py-1.5 text-start text-xs font-medium text-text-secondary hover:text-text-primary"
     >
       {t('browse.filter.clear')}
     </button>

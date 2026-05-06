@@ -45,10 +45,10 @@ export function CardDetailPanel({ cardId, onClose }: Props) {
       <aside
         role="dialog"
         aria-label={t('browse.detail.title')}
-        className="fixed inset-0 z-50 flex flex-col overflow-y-auto bg-bg-base md:start-auto md:end-0 md:w-[420px] md:border-s md:border-border-subtle md:shadow-xl"
+        className="fixed inset-0 z-50 flex flex-col overflow-y-auto bg-bg-base md:start-auto md:end-0 md:w-modal md:border-s md:border-border-subtle md:shadow-xl"
       >
         <header className="sticky top-0 z-10 flex items-center justify-between border-b border-border-subtle bg-bg-base/90 px-4 py-3 backdrop-blur">
-          <h2 className="m-0 text-[14px] font-semibold uppercase text-text-muted" style={{ letterSpacing: '0.18em' }}>
+          <h2 className="m-0 text-sm font-semibold uppercase tracking-allcaps text-text-muted">
             {t('browse.detail.title')}
           </h2>
           <button
@@ -62,13 +62,13 @@ export function CardDetailPanel({ cardId, onClose }: Props) {
         </header>
 
         {cardQuery.isPending && (
-          <div role="status" className="px-4 py-8 text-[13px] text-text-muted">
+          <div role="status" className="px-4 py-8 text-sm text-text-muted">
             {t('browse.detail.loading')}
           </div>
         )}
 
         {cardQuery.isError && (
-          <div role="alert" className="px-4 py-8 text-[13px] text-state-danger">
+          <div role="alert" className="px-4 py-8 text-sm text-state-danger">
             {t('browse.detail.error')}
           </div>
         )}
@@ -105,12 +105,8 @@ function CardDetailBody({
       )}
 
       <div>
-        <h3 className="m-0 text-[18px] font-semibold" style={{ letterSpacing: '-0.01em' }}>
-          {card.name}
-        </h3>
-        {card.typeText && (
-          <p className="m-0 mt-1 text-[12.5px] text-text-muted">{card.typeText}</p>
-        )}
+        <h3 className="m-0 text-lg font-semibold tracking-heading">{card.name}</h3>
+        {card.typeText && <p className="m-0 mt-1 text-xs text-text-muted">{card.typeText}</p>}
       </div>
 
       <StatRow card={card} />
@@ -129,7 +125,7 @@ function CardDetailBody({
         </div>
       )}
 
-      <div className="rounded-md border border-border-subtle bg-bg-raised p-3 text-[13px] leading-relaxed text-text-primary">
+      <div className="rounded-md border border-border-subtle bg-bg-raised p-3 text-sm leading-relaxed text-text-primary">
         {card.functionalText && card.functionalText.trim().length > 0 ? (
           <p className="m-0 whitespace-pre-wrap">
             <CardText text={card.functionalText} />
@@ -183,17 +179,12 @@ function StatRow({ card }: { card: Card }) {
       {visible.map((s) => (
         <div
           key={s.label}
-          className="flex flex-col items-center rounded-md border border-border-subtle bg-bg-raised px-3 py-2 min-w-16"
+          className="flex min-w-16 flex-col items-center rounded-md border border-border-subtle bg-bg-raised px-3 py-2"
         >
-          <span
-            className="text-[10px] font-medium uppercase text-text-muted"
-            style={{ letterSpacing: '0.12em' }}
-          >
+          <span className="text-2xs font-medium uppercase tracking-label text-text-muted">
             {s.label}
           </span>
-          <span className="font-mono text-[18px] font-semibold text-text-primary">
-            {s.value}
-          </span>
+          <span className="font-mono text-lg font-semibold text-text-primary">{s.value}</span>
         </div>
       ))}
     </div>
@@ -201,18 +192,11 @@ function StatRow({ card }: { card: Card }) {
 }
 
 function LegalityRow({ label, status }: { label: string; status: FormatStatus }) {
-  const tone = LEGALITY_TONE[status];
   return (
-    <li className="flex items-center justify-between rounded-md border border-border-subtle bg-bg-raised px-3 py-1.5 text-[12.5px]">
+    <li className="flex items-center justify-between rounded-md border border-border-subtle bg-bg-raised px-3 py-1.5 text-xs">
       <span className="text-text-secondary">{label}</span>
       <span
-        className="rounded-sm px-2 py-0.5 font-medium uppercase"
-        style={{
-          fontSize: 10,
-          letterSpacing: '0.06em',
-          background: tone.bg,
-          color: tone.fg,
-        }}
+        className={`rounded-sm px-2 py-0.5 text-2xs font-medium uppercase tracking-wider ${LEGALITY_TONE[status]}`}
       >
         {status.replace(/_/g, ' ')}
       </span>
@@ -220,13 +204,13 @@ function LegalityRow({ label, status }: { label: string; status: FormatStatus })
   );
 }
 
-const LEGALITY_TONE: Record<FormatStatus, { bg: string; fg: string }> = {
-  legal: { bg: 'var(--state-success-soft)', fg: 'var(--state-success)' },
-  banned: { bg: 'var(--state-danger-soft)', fg: 'var(--state-danger)' },
-  suspended: { bg: 'var(--state-warning-soft)', fg: 'var(--state-warning)' },
-  restricted: { bg: 'var(--state-warning-soft)', fg: 'var(--state-warning)' },
-  living_legend_retired: { bg: 'var(--state-warning-soft)', fg: 'var(--state-warning)' },
-  not_eligible: { bg: 'transparent', fg: 'var(--text-faint)' },
+const LEGALITY_TONE: Record<FormatStatus, string> = {
+  legal: 'bg-state-success-soft text-state-success',
+  banned: 'bg-state-danger-soft text-state-danger',
+  suspended: 'bg-state-warning-soft text-state-warning',
+  restricted: 'bg-state-warning-soft text-state-warning',
+  living_legend_retired: 'bg-state-warning-soft text-state-warning',
+  not_eligible: 'bg-transparent text-text-faint',
 };
 
 function PrintingTile({ printing }: { printing: Printing }) {
@@ -242,13 +226,13 @@ function PrintingTile({ printing }: { printing: Printing }) {
         />
       ) : (
         <div className="flex aspect-card w-full items-center justify-center bg-bg-overlay">
-          <span className="text-center text-[10px] text-text-muted">
+          <span className="text-center text-2xs text-text-muted">
             {printing.set} {printing.collectorNumber}
           </span>
         </div>
       )}
       <div className="px-1.5 py-1 text-center">
-        <span className="font-mono text-[10px] text-text-muted">
+        <span className="font-mono text-2xs text-text-muted">
           {printing.set} · {printing.rarity}
         </span>
       </div>
@@ -258,10 +242,7 @@ function PrintingTile({ printing }: { printing: Printing }) {
 
 function SectionHeading({ children }: { children: React.ReactNode }) {
   return (
-    <div
-      className="text-[10.5px] font-medium uppercase text-text-muted"
-      style={{ letterSpacing: '0.18em' }}
-    >
+    <div className="text-2xs font-medium uppercase tracking-allcaps text-text-muted">
       {children}
     </div>
   );
@@ -269,7 +250,7 @@ function SectionHeading({ children }: { children: React.ReactNode }) {
 
 function Tag({ children }: { children: React.ReactNode }) {
   return (
-    <span className="inline-flex h-6 items-center rounded-full border border-border-subtle bg-bg-overlay px-2.5 text-[11px] text-text-secondary">
+    <span className="inline-flex h-6 items-center rounded-full border border-border-subtle bg-bg-overlay px-2.5 text-tiny text-text-secondary">
       {children}
     </span>
   );

@@ -34,17 +34,17 @@ export function BrowseCardTile({ card, onClick }: Props) {
         />
       ) : (
         <div className="flex h-full w-full items-center justify-center bg-bg-overlay p-2 text-center">
-          <span className="text-[12px] font-semibold text-text-secondary">{card.name}</span>
+          <span className="text-xs font-semibold text-text-secondary">{card.name}</span>
         </div>
       )}
 
       {pitch !== null && pitch !== undefined && pitch >= 1 && pitch <= 3 && (
         <span
           aria-hidden="true"
-          className="pointer-events-none absolute left-1.5 top-1.5 inline-flex items-center gap-1 rounded-full bg-black/55 px-1.5 py-0.5 text-[#F2EEE6] backdrop-blur"
+          className="pointer-events-none absolute start-1.5 top-1.5 inline-flex items-center gap-1 rounded-full bg-black/55 px-1.5 py-0.5 text-text-on-art backdrop-blur"
         >
           <PitchDot pitch={pitch as 1 | 2 | 3} size={7} />
-          <span className="font-mono text-[9.5px] font-semibold">{pitch}</span>
+          <span className="font-mono text-2xs font-semibold">{pitch}</span>
         </span>
       )}
     </button>

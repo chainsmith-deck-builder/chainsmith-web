@@ -83,16 +83,12 @@ export function BrowseCardsScreen() {
       <main
         id="main-content"
         aria-label={t('browse.title')}
-        className="mx-auto w-full flex-1"
-        style={{ maxWidth: 1200, padding: '28px 40px' }}
+        className="mx-auto w-full max-w-6xl flex-1 px-10 py-7"
       >
-        <h1
-          className="m-0 mb-1.5 font-semibold"
-          style={{ fontSize: 26, letterSpacing: '-0.015em' }}
-        >
+        <h1 className="m-0 mb-1.5 text-display font-semibold tracking-heading">
           {t('browse.title')}
         </h1>
-        <p className="m-0 mb-5 text-[13px] text-text-muted">{t('browse.subtitle')}</p>
+        <p className="m-0 mb-5 text-sm text-text-muted">{t('browse.subtitle')}</p>
 
         <div className="relative mb-3">
           <span className="pointer-events-none absolute start-3 top-1/2 -translate-y-1/2 text-text-muted">
@@ -104,7 +100,7 @@ export function BrowseCardsScreen() {
             onChange={(e) => setSearchInput(e.target.value)}
             placeholder={t('browse.search_placeholder')}
             aria-label={t('browse.search_placeholder')}
-            className="block h-10 w-full rounded-md border border-border-subtle bg-bg-input ps-9 pe-3 text-[13.5px] text-text-primary outline-none"
+            className="block h-10 w-full rounded-md border border-border-subtle bg-bg-input ps-9 pe-3 text-sm text-text-primary outline-none"
           />
         </div>
 
@@ -115,12 +111,7 @@ export function BrowseCardsScreen() {
             aria-expanded={advancedOpen}
             aria-controls="browse-advanced-panel"
             onClick={() => setAdvancedOpen((prev) => !prev)}
-            className="inline-flex h-7 items-center gap-1.5 rounded-md px-2.5 text-[12.5px] font-medium transition-colors duration-fast hover:bg-bg-raised"
-            style={{
-              color:
-                advancedActive > 0 ? 'var(--text-primary)' : 'var(--text-secondary)',
-              background: advancedActive > 0 ? 'var(--accent-brand-soft)' : 'transparent',
-            }}
+            className={`inline-flex h-7 items-center gap-1.5 rounded-md px-2.5 text-xs font-medium transition-colors duration-fast hover:bg-bg-raised ${advancedActive > 0 ? 'bg-accent-brand-soft text-text-primary' : 'bg-transparent text-text-secondary'}`}
           >
             <Icon.filter />
             {advancedActive > 0
@@ -128,7 +119,7 @@ export function BrowseCardsScreen() {
               : t('browse.filter.advanced')}
           </button>
           <span
-            className="ms-auto self-center font-mono text-[11.5px] text-text-muted"
+            className="ms-auto self-center font-mono text-tiny text-text-muted"
             aria-live="polite"
           >
             {hasMore
@@ -144,7 +135,7 @@ export function BrowseCardsScreen() {
         )}
 
         {cardsQuery.isPending && (
-          <div role="status" className="py-8 text-[13px] text-text-muted">
+          <div role="status" className="py-8 text-sm text-text-muted">
             {t('browse.loading')}
           </div>
         )}
@@ -152,13 +143,13 @@ export function BrowseCardsScreen() {
         {cardsQuery.isError && (
           <div
             role="alert"
-            className="rounded-xl border border-border-subtle bg-bg-raised p-6 text-[13px] text-text-secondary"
+            className="rounded-xl border border-border-subtle bg-bg-raised p-6 text-sm text-text-secondary"
           >
             <p className="m-0 font-semibold text-text-primary">{t('browse.error.title')}</p>
             <button
               type="button"
               onClick={() => void cardsQuery.refetch()}
-              className="mt-3 inline-flex h-8 items-center rounded-md border border-border-subtle bg-bg-base px-3 text-[12.5px] font-medium hover:bg-bg-overlay"
+              className="mt-3 inline-flex h-8 items-center rounded-md border border-border-subtle bg-bg-base px-3 text-xs font-medium hover:bg-bg-overlay"
             >
               {t('browse.error.retry')}
             </button>
@@ -166,12 +157,13 @@ export function BrowseCardsScreen() {
         )}
 
         {cardsQuery.isSuccess && cards.length === 0 && (
-          <p className="py-8 text-[13px] text-text-muted">{t('browse.empty')}</p>
+          <p className="py-8 text-sm text-text-muted">{t('browse.empty')}</p>
         )}
 
         {cards.length > 0 && (
           <div
             className="grid gap-3.5"
+            // eslint-disable-next-line react/forbid-dom-props -- responsive auto-fill grid; no Tailwind utility
             style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(140px, 1fr))' }}
           >
             {cards.map((c) => (

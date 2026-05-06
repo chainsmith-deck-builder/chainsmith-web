@@ -14,26 +14,18 @@ export function SignInScreen() {
         <div className="mb-6 flex items-center justify-center gap-2">
           <span
             aria-hidden="true"
-            className="flex h-7 w-7 items-center justify-center rounded-md bg-accent-brand text-[15px] font-bold text-white"
+            className="flex h-7 w-7 items-center justify-center rounded-md bg-accent-brand text-sm font-bold text-white"
           >
             C
           </span>
-          <span
-            className="text-[16px] font-semibold"
-            style={{ letterSpacing: '-0.01em' }}
-          >
-            {tCommon('app.name')}
-          </span>
+          <span className="text-base font-semibold tracking-heading">{tCommon('app.name')}</span>
         </div>
 
         <div className="rounded-xl border border-border-subtle bg-bg-raised p-7">
-          <h1
-            className="mb-1.5 m-0 font-semibold"
-            style={{ fontSize: 20, letterSpacing: '-0.015em' }}
-          >
+          <h1 className="m-0 mb-1.5 text-xl font-semibold tracking-heading">
             {t('sign_in.title')}
           </h1>
-          <p className="m-0 mb-5 text-[12.5px] text-text-muted">{t('sign_in.subtitle')}</p>
+          <p className="m-0 mb-5 text-xs text-text-muted">{t('sign_in.subtitle')}</p>
 
           <SignInField label={t('sign_in.email_label')} type="email" autoComplete="email" />
           <SignInField
@@ -44,24 +36,21 @@ export function SignInScreen() {
 
           <button
             type="submit"
-            className="mt-1 inline-flex h-9 w-full items-center justify-center gap-1.5 rounded-md bg-accent-brand text-[14px] font-medium text-white transition-colors duration-fast hover:bg-accent-brand-hover"
+            className="mt-1 inline-flex h-9 w-full items-center justify-center gap-1.5 rounded-md bg-accent-brand text-sm font-medium text-white transition-colors duration-fast hover:bg-accent-brand-hover"
           >
             {t('sign_in.submit')}
           </button>
 
           <a
             href="#forgot"
-            className="mt-3.5 block text-center text-[11.5px] text-text-muted hover:text-text-secondary"
+            className="mt-3.5 block text-center text-tiny text-text-muted hover:text-text-secondary"
           >
             {t('sign_in.forgot_password')}
           </a>
 
           <div className="my-5 flex items-center gap-3">
             <div className="h-px flex-1 bg-border-subtle" />
-            <span
-              className="font-medium uppercase text-text-faint"
-              style={{ fontSize: 10.5, letterSpacing: '0.1em' }}
-            >
+            <span className="text-2xs font-medium uppercase tracking-widest text-text-faint">
               {t('sign_in.or_continue_with')}
             </span>
             <div className="h-px flex-1 bg-border-subtle" />
@@ -70,20 +59,20 @@ export function SignInScreen() {
           <div className="flex gap-2">
             <button
               type="button"
-              className="inline-flex h-9 flex-1 items-center justify-center gap-1.5 rounded-md border border-border-subtle bg-bg-raised text-[13px] font-medium text-text-primary transition-colors duration-fast hover:bg-bg-overlay"
+              className="inline-flex h-9 flex-1 items-center justify-center gap-1.5 rounded-md border border-border-subtle bg-bg-raised text-sm font-medium text-text-primary transition-colors duration-fast hover:bg-bg-overlay"
             >
               <Icon.google /> {t('sign_in.continue_google')}
             </button>
             <button
               type="button"
-              className="inline-flex h-9 flex-1 items-center justify-center gap-1.5 rounded-md border border-border-subtle bg-bg-raised text-[13px] font-medium text-text-primary transition-colors duration-fast hover:bg-bg-overlay"
+              className="inline-flex h-9 flex-1 items-center justify-center gap-1.5 rounded-md border border-border-subtle bg-bg-raised text-sm font-medium text-text-primary transition-colors duration-fast hover:bg-bg-overlay"
             >
               <Icon.discord /> {t('sign_in.continue_discord')}
             </button>
           </div>
         </div>
 
-        <p className="mt-4 text-center text-[12px] text-text-muted">
+        <p className="mt-4 text-center text-xs text-text-muted">
           {t('sign_in.no_account_prompt')}{' '}
           <a href="#sign-up" className="font-medium text-accent-brand">
             {t('sign_in.sign_up')}
@@ -105,17 +94,14 @@ function SignInField({
 }) {
   return (
     <div className="mb-3">
-      <label
-        className="mb-1.5 block font-medium uppercase text-text-muted"
-        style={{ fontSize: 11.5, letterSpacing: '0.1em' }}
-      >
+      <label className="mb-1.5 block text-tiny font-medium uppercase tracking-widest text-text-muted">
         {label}
       </label>
       <input
         type={type}
         autoComplete={autoComplete}
         aria-label={label}
-        className="block h-9 w-full rounded-md border border-border-subtle bg-bg-input px-3 text-[13px] text-text-primary outline-none"
+        className="block h-9 w-full rounded-md border border-border-subtle bg-bg-input px-3 text-sm text-text-primary outline-none"
       />
     </div>
   );

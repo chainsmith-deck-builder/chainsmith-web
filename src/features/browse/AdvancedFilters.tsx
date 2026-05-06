@@ -68,26 +68,15 @@ export function AdvancedFilters({ values, onChange }: Props) {
       <div className="grid gap-5 md:grid-cols-3">
         <FieldGroup label={t('browse.advanced.talent')}>
           <div className="flex flex-wrap gap-1.5">
-            {ALL_TALENTS.map((talent) => {
-              const selected = values.talents.includes(talent);
-              return (
-                <button
-                  key={talent}
-                  type="button"
-                  role="switch"
-                  aria-checked={selected}
-                  onClick={() => toggleTalent(talent)}
-                  className="inline-flex h-7 items-center rounded-full border px-3 text-[12px] font-medium transition-colors duration-fast"
-                  style={{
-                    background: selected ? 'var(--accent-brand-soft)' : 'var(--bg-overlay)',
-                    borderColor: selected ? 'var(--accent-brand-dim)' : 'var(--border-subtle)',
-                    color: selected ? 'var(--text-primary)' : 'var(--text-secondary)',
-                  }}
-                >
-                  {t(`talent.${talent}`)}
-                </button>
-              );
-            })}
+            {ALL_TALENTS.map((talent) => (
+              <PillToggle
+                key={talent}
+                role="switch"
+                checked={values.talents.includes(talent)}
+                onSelect={() => toggleTalent(talent)}
+                label={t(`talent.${talent}`)}
+              />
+            ))}
           </div>
         </FieldGroup>
 
@@ -101,7 +90,7 @@ export function AdvancedFilters({ values, onChange }: Props) {
               onChange={(e) => setCost('costMin', e.target.value)}
               aria-label={t('browse.advanced.cost_min_placeholder')}
               placeholder={t('browse.advanced.cost_min_placeholder')}
-              className="h-8 w-20 rounded-md border border-border-subtle bg-bg-input px-2 font-mono text-[12.5px] text-text-primary outline-none"
+              className="h-8 w-20 rounded-md border border-border-subtle bg-bg-input px-2 font-mono text-xs text-text-primary outline-none"
             />
             <span aria-hidden="true" className="text-text-muted">
               –
@@ -114,21 +103,23 @@ export function AdvancedFilters({ values, onChange }: Props) {
               onChange={(e) => setCost('costMax', e.target.value)}
               aria-label={t('browse.advanced.cost_max_placeholder')}
               placeholder={t('browse.advanced.cost_max_placeholder')}
-              className="h-8 w-20 rounded-md border border-border-subtle bg-bg-input px-2 font-mono text-[12.5px] text-text-primary outline-none"
+              className="h-8 w-20 rounded-md border border-border-subtle bg-bg-input px-2 font-mono text-xs text-text-primary outline-none"
             />
           </div>
         </FieldGroup>
 
         <FieldGroup label={t('browse.advanced.format')}>
           <div role="radiogroup" className="flex flex-wrap gap-1.5">
-            <FormatRadio
+            <PillToggle
+              role="radio"
               checked={values.format === undefined}
               onSelect={() => setFormat(undefined)}
               label={t('browse.advanced.format_any')}
             />
             {UI_FORMATS.map((f) => (
-              <FormatRadio
+              <PillToggle
                 key={f}
+                role="radio"
                 checked={values.format === f}
                 onSelect={() => setFormat(f)}
                 label={t(formatI18nKey(f), { ns: 'common' })}
@@ -143,7 +134,7 @@ export function AdvancedFilters({ values, onChange }: Props) {
           <button
             type="button"
             onClick={clearAll}
-            className="text-[12px] font-medium text-text-secondary hover:text-text-primary"
+            className="text-xs font-medium text-text-secondary hover:text-text-primary"
           >
             {t('browse.advanced.clear')}
           </button>
@@ -156,10 +147,7 @@ export function AdvancedFilters({ values, onChange }: Props) {
 function FieldGroup({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <div>
-      <div
-        className="mb-2 font-medium uppercase text-text-muted"
-        style={{ fontSize: 10.5, letterSpacing: '0.18em' }}
-      >
+      <div className="mb-2 text-2xs font-medium uppercase tracking-allcaps text-text-muted">
         {label}
       </div>
       {children}
@@ -167,27 +155,27 @@ function FieldGroup({ label, children }: { label: string; children: React.ReactN
   );
 }
 
-function FormatRadio({
+function PillToggle({
+  role,
   checked,
   onSelect,
   label,
 }: {
+  role: 'radio' | 'switch';
   checked: boolean;
   onSelect: () => void;
   label: string;
 }) {
+  const tone = checked
+    ? 'bg-accent-brand-soft border-accent-brand-dim text-text-primary'
+    : 'bg-bg-overlay border-border-subtle text-text-secondary';
   return (
     <button
       type="button"
-      role="radio"
+      role={role}
       aria-checked={checked}
       onClick={onSelect}
-      className="inline-flex h-7 items-center rounded-full border px-3 text-[12px] font-medium transition-colors duration-fast"
-      style={{
-        background: checked ? 'var(--accent-brand-soft)' : 'var(--bg-overlay)',
-        borderColor: checked ? 'var(--accent-brand-dim)' : 'var(--border-subtle)',
-        color: checked ? 'var(--text-primary)' : 'var(--text-secondary)',
-      }}
+      className={`inline-flex h-7 items-center rounded-full border px-3 text-xs font-medium transition-colors duration-fast ${tone}`}
     >
       {label}
     </button>

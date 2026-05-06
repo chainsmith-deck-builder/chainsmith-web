@@ -17,22 +17,15 @@ export function AccountScreen() {
       <main
         id="main-content"
         aria-label={t('page_title')}
-        className="mx-auto w-full flex-1"
-        style={{ maxWidth: 800, padding: '32px 40px' }}
+        className="mx-auto w-full max-w-3xl flex-1 px-10 py-8"
       >
-        <h1
-          className="mb-6 font-semibold"
-          style={{ fontSize: 26, letterSpacing: '-0.015em' }}
-        >
-          {t('page_title')}
-        </h1>
+        <h1 className="mb-6 text-display font-semibold tracking-heading">{t('page_title')}</h1>
 
         <Section title={t('section.profile')}>
           <div className="mb-4 flex items-center gap-4">
             <div
               aria-hidden="true"
-              className="flex h-14 w-14 items-center justify-center rounded-full text-[22px] font-semibold text-white"
-              style={{ background: 'oklch(0.5 0.10 30)' }}
+              className="flex h-14 w-14 items-center justify-center rounded-full bg-avatar-fallback text-xl font-semibold text-white"
             >
               JM
             </div>
@@ -44,28 +37,24 @@ export function AccountScreen() {
 
         <Section title={t('section.preferences')}>
           <div className="mb-4">
-            <div
-              className="mb-1.5 font-medium uppercase text-text-muted"
-              style={{ fontSize: 11.5, letterSpacing: '0.1em' }}
-            >
+            <div className="mb-1.5 text-tiny font-medium uppercase tracking-widest text-text-muted">
               {t('field.theme')}
             </div>
             <div className="inline-flex rounded-md border border-border-subtle bg-bg-raised p-0.5">
-              {(['dark', 'light'] as const).map((tone) => (
-                <button
-                  key={tone}
-                  type="button"
-                  onClick={() => setTheme(tone)}
-                  aria-pressed={theme === tone}
-                  className="rounded-sm px-3.5 py-1.5 text-[12px] font-medium"
-                  style={{
-                    background: theme === tone ? 'var(--bg-elevated)' : 'transparent',
-                    color: theme === tone ? 'var(--text-primary)' : 'var(--text-muted)',
-                  }}
-                >
-                  {tone === 'dark' ? t('field.theme_dark') : t('field.theme_light')}
-                </button>
-              ))}
+              {(['dark', 'light'] as const).map((tone) => {
+                const active = theme === tone;
+                return (
+                  <button
+                    key={tone}
+                    type="button"
+                    onClick={() => setTheme(tone)}
+                    aria-pressed={active}
+                    className={`rounded-sm px-3.5 py-1.5 text-xs font-medium ${active ? 'bg-bg-elevated text-text-primary' : 'bg-transparent text-text-muted'}`}
+                  >
+                    {tone === 'dark' ? t('field.theme_dark') : t('field.theme_light')}
+                  </button>
+                );
+              })}
             </div>
           </div>
           <Field label={t('field.language')} value="English (United States)" select />
@@ -76,12 +65,7 @@ export function AccountScreen() {
         </Section>
 
         <Section title={t('section.delete_account')} danger>
-          <p
-            className="mb-3 text-[12.5px] text-text-muted"
-            style={{ lineHeight: 1.5 }}
-          >
-            {t('delete.explanation')}
-          </p>
+          <p className="mb-3 text-xs leading-normal text-text-muted">{t('delete.explanation')}</p>
           <Button variant="dangerOutline">{t('delete.button')}</Button>
         </Section>
       </main>
