@@ -27,10 +27,11 @@ export function DeckRow({
   onDec,
 }: Props) {
   const { t } = useTranslation('deck');
+  const stepperBtn =
+    'flex h-6 w-6 items-center justify-center rounded-sm text-sm leading-none text-text-muted transition-colors duration-fast hover:bg-bg-elevated hover:text-text-primary';
   return (
     <div
-      className="relative flex items-center gap-2 rounded-md px-2 py-1.5 transition-colors duration-fast"
-      style={{ background: focused ? 'var(--bg-overlay)' : 'transparent' }}
+      className={`relative flex items-center gap-2 rounded-md px-2 py-1.5 transition-colors duration-fast ${focused ? 'bg-bg-overlay' : 'bg-transparent'}`}
       onMouseEnter={onHover}
     >
       <button
@@ -40,14 +41,9 @@ export function DeckRow({
         className="absolute inset-0 rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-brand-ring"
       />
       <PitchDot pitch={card.pitch} size={8} />
-      <div className="relative min-w-0 flex-1 pointer-events-none">
-        <div
-          className="flex items-center gap-1.5 truncate text-[12.5px] font-medium text-text-primary"
-          style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}
-        >
-          {qty > 1 && (
-            <span className="font-mono text-[11.5px] text-text-muted">{qty}×</span>
-          )}
+      <div className="pointer-events-none relative min-w-0 flex-1">
+        <div className="flex items-center gap-1.5 truncate text-xs font-medium text-text-primary">
+          {qty > 1 && <span className="font-mono text-tiny text-text-muted">{qty}×</span>}
           <span>{card.name}</span>
           {hasViolation && (
             <span
@@ -56,10 +52,7 @@ export function DeckRow({
             />
           )}
         </div>
-        <div
-          className="mt-px font-medium uppercase text-text-muted"
-          style={{ fontSize: 9.5, letterSpacing: '0.1em' }}
-        >
+        <div className="mt-px text-2xs font-medium uppercase tracking-widest text-text-muted">
           {card.subtype ?? card.type}
         </div>
       </div>
@@ -71,15 +64,11 @@ export function DeckRow({
             onDec?.();
           }}
           aria-label={t('editor.card_actions.remove_one_from_deck', { name: card.name })}
-          className="flex h-5.5 w-5.5 items-center justify-center rounded-sm text-text-muted transition-colors duration-fast hover:bg-bg-elevated hover:text-text-primary"
-          style={{ width: 22, height: 22, fontSize: 14, lineHeight: 1 }}
+          className={stepperBtn}
         >
           −
         </button>
-        <span
-          className="font-mono text-[12px] font-medium text-text-secondary"
-          style={{ minWidth: 16, textAlign: 'center' }}
-        >
+        <span className="min-w-4 text-center font-mono text-xs font-medium text-text-secondary">
           {qty}
         </span>
         <button
@@ -89,8 +78,7 @@ export function DeckRow({
             onInc?.();
           }}
           aria-label={t('editor.card_actions.add_one_to_deck', { name: card.name })}
-          className="flex items-center justify-center rounded-sm text-text-muted transition-colors duration-fast hover:bg-bg-elevated hover:text-text-primary"
-          style={{ width: 22, height: 22, fontSize: 14, lineHeight: 1 }}
+          className={stepperBtn}
         >
           +
         </button>

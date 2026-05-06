@@ -11,26 +11,15 @@ export function HeroBlock({ heroId, compact = false }: Props) {
   const { t } = useTranslation('deck');
   const hero = getHero(heroId);
   return (
-    <div
-      className="flex items-center gap-3"
-      style={{ padding: compact ? '4px 0' : '6px 0' }}
-    >
+    <div className={`flex items-center gap-3 ${compact ? 'py-1' : 'py-1.5'}`}>
       <HeroAvatar heroId={heroId} size={compact ? 36 : 44} />
       <div className="min-w-0 flex-1">
         <div
-          className="font-semibold text-text-primary"
-          style={{
-            fontSize: compact ? 13 : 14.5,
-            lineHeight: 1.2,
-            letterSpacing: '-0.01em',
-          }}
+          className={`font-semibold leading-tight tracking-heading text-text-primary ${compact ? 'text-xs' : 'text-sm'}`}
         >
           {hero.name}
         </div>
-        <div
-          className="mt-0.5 flex items-center gap-1.5 text-text-muted"
-          style={{ fontSize: 11.5 }}
-        >
+        <div className="mt-0.5 flex items-center gap-1.5 text-tiny text-text-muted">
           <span>{hero.cls}</span>
           <span className="block h-0.5 w-0.5 rounded-full bg-text-faint" />
           <span className="font-mono">{t('hero_select.tile.life_amount', { n: hero.life })}</span>

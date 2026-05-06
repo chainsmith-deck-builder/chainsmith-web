@@ -14,14 +14,13 @@ export function HeroAvatar({ heroId, size = 40 }: Props) {
   return (
     <div
       aria-hidden="true"
-      className="flex flex-shrink-0 items-center justify-center rounded-full font-sans font-semibold text-[#F2EEE6]"
+      className="flex flex-shrink-0 items-center justify-center rounded-full font-sans font-semibold tracking-tight text-text-on-art ring-1 ring-inset ring-white/10"
+      // eslint-disable-next-line react/forbid-dom-props -- hero-keyed gradient + size-derived font; no token equivalent
       style={{
         width: size,
         height: size,
         background: `radial-gradient(60% 60% at 30% 25%, oklch(0.62 0.14 ${hero.hue}) 0%, oklch(0.32 0.10 ${hero.hue}) 60%, oklch(0.18 0.06 ${hero.hue}) 100%)`,
-        boxShadow: 'inset 0 0 0 1px rgba(255,255,255,0.08)',
         fontSize: size * 0.42,
-        letterSpacing: '-0.02em',
       }}
     >
       {hero.initial}

@@ -19,7 +19,8 @@ export function CardArt({ card, size = 'tile' }: Props) {
 
   return (
     <div
-      className="relative flex h-full w-full flex-col overflow-hidden rounded-md text-[#F2EEE6]"
+      className="relative flex h-full w-full flex-col overflow-hidden rounded-md text-text-on-art"
+      // eslint-disable-next-line react/forbid-dom-props -- size-keyed dimensions, pitch-keyed gradient, computed padding; layered inset shadow not on token scale
       style={{
         width: dims.w,
         height: dims.h,
@@ -33,6 +34,7 @@ export function CardArt({ card, size = 'tile' }: Props) {
       <div className="mb-1 flex items-center justify-between">
         <span
           className="rounded-full bg-black/40 px-1.5 py-0.5 font-mono font-semibold"
+          // eslint-disable-next-line react/forbid-dom-props -- size-derived font, no token equivalent
           style={{ fontSize: dims.meta + 1 }}
         >
           {card.pitch}
@@ -40,6 +42,7 @@ export function CardArt({ card, size = 'tile' }: Props) {
         {card.cost != null && (
           <span
             className="rounded-full bg-black/40 px-1.5 py-0.5 font-mono font-semibold"
+            // eslint-disable-next-line react/forbid-dom-props -- size-derived font, no token equivalent
             style={{ fontSize: dims.meta + 1 }}
           >
             {card.cost}
@@ -50,35 +53,29 @@ export function CardArt({ card, size = 'tile' }: Props) {
       {/* Name */}
       <div className="flex flex-1 items-center justify-center px-0.5 text-center">
         <div
-          className="font-sans font-semibold"
-          style={{
-            fontSize: dims.name,
-            lineHeight: 1.15,
-            letterSpacing: '-0.005em',
-            textShadow: '0 1px 2px rgba(0,0,0,0.5)',
-          }}
+          className="font-sans font-semibold leading-tight tracking-heading"
+          // eslint-disable-next-line react/forbid-dom-props -- size-derived font; text-shadow has no Tailwind utility
+          style={{ fontSize: dims.name, textShadow: '0 1px 2px rgba(0,0,0,0.5)' }}
         >
           {card.name}
         </div>
       </div>
 
-      {/* Bottom: subtype + defense */}
+      {/* Bottom: subtype + defense. Opacity-stepped on the on-art base color
+          to match the design's typographic hierarchy on card art. */}
       <div className="flex items-end justify-between gap-1.5">
         <span
-          className="font-medium uppercase"
-          style={{
-            color: 'rgba(242,238,230,0.78)',
-            fontSize: dims.meta,
-            letterSpacing: '0.1em',
-            lineHeight: 1.1,
-          }}
+          className="font-medium uppercase leading-none tracking-widest opacity-80"
+          // eslint-disable-next-line react/forbid-dom-props -- size-derived font, no token equivalent
+          style={{ fontSize: dims.meta }}
         >
           {card.subtype ?? card.type.split(' ')[0]}
         </span>
         {card.defense != null && size !== 'thumb' && (
           <span
-            className="font-mono"
-            style={{ fontSize: dims.meta + 1, color: 'rgba(242,238,230,0.65)' }}
+            className="font-mono opacity-65"
+            // eslint-disable-next-line react/forbid-dom-props -- size-derived font, no token equivalent
+            style={{ fontSize: dims.meta + 1 }}
           >
             {t('editor.analytics.slot_d_label', { n: card.defense })}
           </span>

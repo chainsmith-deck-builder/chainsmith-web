@@ -18,6 +18,7 @@ export function PitchDot({ pitch, size = 10, decorative = true }: Props) {
     <span
       data-pitch={pitch}
       className="cs-pitch-dot"
+      // eslint-disable-next-line react/forbid-dom-props -- runtime-numeric size; no token equivalent
       style={{ width: size, height: size }}
       {...labelProps}
     />

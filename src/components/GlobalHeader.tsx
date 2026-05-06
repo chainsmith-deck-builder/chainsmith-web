@@ -16,15 +16,10 @@ export function GlobalHeader({ active = 'decks', signedIn = true }: Props) {
   return (
     <header className="flex h-14 flex-shrink-0 items-center gap-6 border-b border-border-subtle bg-bg-base px-6">
       <Link to="/" className="flex items-center gap-2">
-        <span
-          className="flex h-6 w-6 items-center justify-center rounded-md bg-accent-brand text-[13px] font-bold text-white"
-          style={{ letterSpacing: '-0.04em' }}
-        >
+        <span className="flex h-6 w-6 items-center justify-center rounded-md bg-accent-brand text-sm font-bold tracking-display text-white">
           C
         </span>
-        <span className="text-[14.5px] font-semibold" style={{ letterSpacing: '-0.01em' }}>
-          {t('app.name')}
-        </span>
+        <span className="text-sm font-semibold tracking-heading">{t('app.name')}</span>
       </Link>
       <nav className="flex gap-1">
         <NavLink to="/decks/new" active={active === 'editor'}>
@@ -41,15 +36,14 @@ export function GlobalHeader({ active = 'decks', signedIn = true }: Props) {
         {signedIn ? (
           <span
             aria-hidden="true"
-            className="flex h-7 w-7 items-center justify-center rounded-full text-[12px] font-semibold text-white"
-            style={{ background: 'oklch(0.5 0.10 30)' }}
+            className="flex h-7 w-7 items-center justify-center rounded-full bg-avatar-fallback text-xs font-semibold text-white"
           >
             JM
           </span>
         ) : (
           <Link
             to="/sign-in"
-            className="inline-flex h-8 items-center gap-1.5 rounded-md border border-border-subtle bg-bg-raised px-3.5 text-[13px] font-medium text-text-primary transition-colors duration-fast hover:bg-bg-overlay"
+            className="inline-flex h-8 items-center gap-1.5 rounded-md border border-border-subtle bg-bg-raised px-3.5 text-sm font-medium text-text-primary transition-colors duration-fast hover:bg-bg-overlay"
           >
             {t('actions.sign_in')}
           </Link>
@@ -68,14 +62,13 @@ function NavLink({
   active: boolean;
   children: ReactNode;
 }) {
+  const tone = active
+    ? 'bg-bg-raised text-text-primary'
+    : 'bg-transparent text-text-secondary';
   return (
     <Link
       to={to}
-      className="rounded-md px-2.5 py-1.5 text-[13px] font-medium transition-colors duration-fast"
-      style={{
-        color: active ? 'var(--text-primary)' : 'var(--text-secondary)',
-        background: active ? 'var(--bg-raised)' : 'transparent',
-      }}
+      className={`rounded-md px-2.5 py-1.5 text-sm font-medium transition-colors duration-fast ${tone}`}
     >
       {children}
     </Link>

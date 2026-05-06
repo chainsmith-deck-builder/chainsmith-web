@@ -75,6 +75,13 @@ export default {
         modal: 'var(--layout-modal)',
         drawer: 'var(--layout-drawer)',
       },
+      minWidth: ({ theme }) => ({ ...theme('spacing') }),
+      minHeight: ({ theme }) => ({ ...theme('spacing') }),
+      maxWidth: ({ theme }) => ({ ...theme('spacing') }),
+      maxHeight: ({ theme }) => ({ ...theme('spacing') }),
+      ringWidth: {
+        3: '3px',
+      },
       borderRadius: {
         sm: 'var(--radius-sm)',
         md: 'var(--radius-md)',

@@ -54,7 +54,7 @@ export function FilterMenu({ label, active, children }: Props) {
       {open && (
         <div
           role="menu"
-          className="absolute start-0 top-full z-10 mt-1 min-w-[200px] rounded-lg border border-border-subtle bg-bg-overlay p-1.5 shadow-lg"
+          className="absolute start-0 top-full z-10 mt-1 min-w-52 rounded-lg border border-border-subtle bg-bg-overlay p-1.5 shadow-lg"
         >
           {children}
         </div>

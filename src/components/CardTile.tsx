@@ -29,16 +29,16 @@ export function CardTile({ card, inDeck = 0, onAdd, onClick }: Props) {
       {/* Pitch pip — color + numeric, per fab-domain.md */}
       <span
         aria-hidden="true"
-        className="pointer-events-none absolute left-1.5 top-1.5 inline-flex items-center gap-1 rounded-full bg-black/55 px-1.5 py-0.5 text-[#F2EEE6] backdrop-blur"
+        className="pointer-events-none absolute start-1.5 top-1.5 inline-flex items-center gap-1 rounded-full bg-black/55 px-1.5 py-0.5 text-text-on-art backdrop-blur"
       >
         <PitchDot pitch={card.pitch} size={7} />
-        <span className="font-mono text-[9.5px] font-semibold">{card.pitch}</span>
+        <span className="font-mono text-2xs font-semibold">{card.pitch}</span>
       </span>
 
       {/* In-deck badge */}
       {inDeck > 0 && (
         <span
-          className="pointer-events-none absolute right-1.5 top-1.5 rounded-full bg-accent-brand px-1.5 py-0.5 font-mono text-[10px] font-semibold text-white"
+          className="pointer-events-none absolute end-1.5 top-1.5 rounded-full bg-accent-brand px-1.5 py-0.5 font-mono text-2xs font-semibold text-white"
           aria-label={`${inDeck} in deck`}
         >
           ×{inDeck}
@@ -51,7 +51,7 @@ export function CardTile({ card, inDeck = 0, onAdd, onClick }: Props) {
           type="button"
           aria-label={t('editor.card_actions.add_to_deck', { name: card.name })}
           onClick={() => onAdd(card)}
-          className="absolute bottom-1.5 right-1.5 flex h-6 w-6 items-center justify-center rounded-full border border-white/15 bg-black/65 font-mono text-base font-medium leading-none text-white backdrop-blur transition-colors duration-fast hover:bg-accent-brand"
+          className="absolute bottom-1.5 end-1.5 flex h-6 w-6 items-center justify-center rounded-full border border-white/15 bg-black/65 font-mono text-base font-medium leading-none text-white backdrop-blur transition-colors duration-fast hover:bg-accent-brand"
         >
           +
         </button>
